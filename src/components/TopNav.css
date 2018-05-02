@@ -1,2 +1,10 @@
 .navbar-brand {
 }
+
+#topNav > .btn-outline-secondary {
+  margin-left: 10px;
+}
+
+#topNav {
+  margin-bottom: 30px;
+}

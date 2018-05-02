@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import React, { Component, Fragment } from 'react';
 import { Provider } from 'react-redux';
 
@@ -7,17 +7,19 @@ import './App.css';
 
 import Routes from './routes';
 import TopNav from './components/TopNav';
+import store from './store';
+import history from './store/history'
 
 class App extends Component {
   render() {
     return (
-      <Provider>
-        <BrowserRouter>
+      <Provider store={store}>
+        <Router history={history}>
           <Fragment>
             <TopNav />
             <Routes />
           </Fragment>
-        </BrowserRouter>
+        </Router>
       </Provider>
     );
   }

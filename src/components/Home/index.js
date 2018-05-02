@@ -3,12 +3,13 @@ import React, { Component } from 'react'
 export default class Home extends Component {
   render () {
     return (
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <div class="jumbotron">
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div className="jumbotron">
               <h1>Connecting Clinicians With Hospitals</h1>
               <p>Lorem ipsum</p>
+              <p>{process.env.RAPCOR_API_URL}</p>
             </div>
           </div>
         </div>

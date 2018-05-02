@@ -16,12 +16,13 @@ export default class TopNav extends PureComponent {
               </button>
 
               <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
+                <ul className="navbar-nav mr-auto">
+                  <li className="nav-item">
                     <Link className="nav-link" to="/about">Contact</Link>
                   </li>
                 </ul>
-                <Link className="btn btn-light my-2 my-sm-0" to="/clinicians/signup">Sign Up</Link>
+                <Link className="btn btn-primary my-2 my-sm-0" to="/clinicians/signup">Sign Up</Link>
+                <Link className="btn btn-outline-secondary my-2 my-sm-0" to="/clinicians/login">Login</Link>
               </div>
             </nav>
           </div>

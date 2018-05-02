@@ -8,7 +8,7 @@ export class Form extends Component {
 
   render() {
     return (
-      <form>
+      <form onSubmit={this.props.onSubmit}>
         { this.props.children }
       </form>
     )
@@ -19,14 +19,23 @@ export class Input extends Component {
   static propTypes = {
     label: PropTypes.string,
     type: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    onChange: PropTypes.func,
+    value: PropTypes.string,
+    name: PropTypes.string
   }
 
   render() {
     return (
       <div className="form-group">
-        <label for="">{this.props.label}</label>
-        <input className="form-control" type={this.props.type} placeholder={this.props.placeholder} />
+        <label htmlFor="">{this.props.label}</label>
+        <input 
+          className="form-control" 
+          type={this.props.type} 
+          placeholder={this.props.placeholder} 
+          name={this.props.name} 
+          onChange={this.props.onChange} 
+          value={this.props.value} />
       </div>
     )
   }
