@@ -9,7 +9,6 @@ export default class Home extends Component {
             <div className="jumbotron">
               <h1>Connecting Clinicians With Hospitals</h1>
               <p>Lorem ipsum</p>
-              <p>{process.env.RAPCOR_API_URL}</p>
             </div>
           </div>
         </div>

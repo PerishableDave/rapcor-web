@@ -6,6 +6,7 @@ import {
   EDIT_CLINICIAN_SUCCESS,
   EDIT_CLINICIAN_FAILURE
 } from './actions'
+import { rapcorApiUrl } from '../../../config'
 
 export const createClinician = (dispatch) => {
   return async (clinician) => {
@@ -31,7 +32,7 @@ export const createClinician = (dispatch) => {
     })
 
     try {
-      const response = await fetch('http://localhost:4000/v1/clinicians', {
+      const response = await fetch(`${rapcorApiUrl}/v1/clinicians`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -68,7 +69,7 @@ export const editClinician = (token) => {
       })
 
       try {
-        const response = await fetch(`http://localhost:4000/v1/clinicians/${clinician.id}`, {
+        const response = await fetch(`${rapcorApiUrl}/v1/clinicians/${clinician.id}`, {
           method: 'POST',
           headers: {
             'Accept': 'application/json, text/plain, */*',

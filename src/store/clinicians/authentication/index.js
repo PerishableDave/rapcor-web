@@ -3,6 +3,7 @@ import {
   CREATE_CLINICIAN_TOKEN_SUCCESS,
   CREATE_CLINICIAN_TOKEN_FAILURE
 } from './actions'
+import { rapcorApiUrl } from '../../../config'
 import history from '../../history'
 
 export const createClinicianToken = (dispatch) => {
@@ -17,7 +18,7 @@ export const createClinicianToken = (dispatch) => {
     })
 
     try {
-      const response = await fetch('http://localhost:4000/v1/clinicians/tokens', {
+      const response = await fetch(`${rapcorApiUrl}/v1/clinicians/tokens`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',
