@@ -44,3 +44,11 @@ export const createClinicianToken = (dispatch) => {
     }
   }
 }
+
+export const getClinicianToken = (store) => {
+  return store.clinicians.authentication.token
+}
+
+export const isClinicianLoggedIn = (store) => {
+  return store.clinicians.authentication.token !== null
+}

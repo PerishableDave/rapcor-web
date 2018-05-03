@@ -4,7 +4,11 @@ import {
   CREATE_CLINICIAN_TOKEN_FAILURE
 } from './actions'
 
-export default (state = {}, {type, payload}) => {
+const initialState = {
+  token: null
+}
+
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case CREATE_CLINICIAN_TOKEN_REQUEST:
       return state
