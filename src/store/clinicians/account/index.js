@@ -42,13 +42,20 @@ export const createClinician = (dispatch) => {
       })
       const json = await response.json()
 
-      dispatch({
-        type: CREATE_CLINICIAN_SUCCESS,
-        payload: {
-          clinician: json.clinician,
-          token: json.token
-        }
-      })
+      if (json.errors) {
+        dispatch({
+          type: CREATE_CLINICIAN_FAILURE,
+          errors: json.errors
+        })
+      } else {
+        dispatch({
+          type: CREATE_CLINICIAN_SUCCESS,
+          payload: {
+            clinician: json.clinician,
+            token: json.token
+          }
+        })
+      }
     } catch (error) {
       dispatch({
         type: CREATE_CLINICIAN_FAILURE

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input } from '../../shared/Form'
-import { AsYouType } from 'libphonenumber-js'
+import { formatNumber, AsYouType } from 'libphonenumber-js'
 
 export default class ClinicianAccountForm extends Component {
   static propTypes = {
@@ -38,7 +38,12 @@ export default class ClinicianAccountForm extends Component {
   }
 
   handlePhoneInput(event) {
+    const input = event.target.value
+    const formattedVal = new AsYouType('US').input(input)
 
+    this.setState({
+      phoneNumber: formattedVal
+    })
   }
 
   handleInputChange(event) {
@@ -52,11 +57,13 @@ export default class ClinicianAccountForm extends Component {
   }
 
   handleSubmit(event) {
+    const formattedPhone = formatNumber({ country: 'US', phone: this.state.phoneNumber }, 'International')
+
     const clinician = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
-      phoneNumber: this.state.phoneNumber,
+      phoneNumber: formattedPhone,
       address: this.state.address,
       address2: this.state.address2,
       city: this.state.city,
