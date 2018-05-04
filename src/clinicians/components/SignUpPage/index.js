@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ClinicianAccountForm from '../ClinicianAccountForm'
-import Card from '../../shared/Card'
-import { createClinician } from '../../../store/clinicians/account'
+import ClinicianAccountForm from '../ClinicianForm'
+import Card from '../../../components/shared/Card'
+import { createClinician } from '../../store/account'
 
-class SignUp extends Component {
+class SignUpPage extends Component {
   constructor(props) {
     super(props)
 
@@ -30,4 +30,4 @@ const mapDispatchToProps = (dispatch) => ({
   createClinician: createClinician(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage)

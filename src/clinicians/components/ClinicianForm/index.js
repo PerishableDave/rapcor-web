@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input } from '../../shared/Form'
+import { Form, Input } from '../../../components/shared/Form'
 import { formatNumber, AsYouType } from 'libphonenumber-js'
 
-export default class ClinicianAccountForm extends Component {
+export default class ClinicianForm extends Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     firstName: PropTypes.string,
@@ -21,15 +21,16 @@ export default class ClinicianAccountForm extends Component {
     super(props)
 
     this.state = {
-      firstName: props.firstName,
-      lastName: props.lastName,
-      email: props.email,
-      phoneNumber: props.phoneNumber,
-      address: props.address,
-      address2: props.address2,
-      city: props.city,
-      state: props.state,
-      zip: props.zip
+      firstName: props.firstName || "",
+      lastName: props.lastName || "",
+      email: props.email || "",
+      phoneNumber: props.phoneNumber || "",
+      address: props.address || "",
+      address2: props.address2 || "",
+      city: props.city || "",
+      state: props.state || "",
+      zip: props.zip || "",
+      password: ""
     }
 
     this.handleInputChange = this.handleInputChange.bind(this)
@@ -47,9 +48,7 @@ export default class ClinicianAccountForm extends Component {
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const name = target.name
-    const value = target.value
+    const { name, value } = event.target;
 
     this.setState({
       [name]: value

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import './TopNav.css'
-import { isClinicianLoggedIn } from '../store/clinicians/authentication'
+import { isClinicianLoggedIn } from '../clinicians/store/authentication'
 
 class TopNav extends PureComponent {
   render () {

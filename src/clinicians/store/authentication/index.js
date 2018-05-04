@@ -4,7 +4,7 @@ import {
   CREATE_CLINICIAN_TOKEN_FAILURE
 } from './actions'
 import { rapcorApiUrl } from '../../../config'
-import history from '../../history'
+import history from '../../../store/history'
 
 export const createClinicianToken = (dispatch) => {
   return async (email, password) => {

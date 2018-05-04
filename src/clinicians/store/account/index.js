@@ -6,7 +6,7 @@ import {
   EDIT_CLINICIAN_SUCCESS,
   EDIT_CLINICIAN_FAILURE
 } from './actions'
-import { rapcorApiUrl } from '../../../config'
+import { post } from '../../../lib/rapcor-api'
 
 export const createClinician = (dispatch) => {
   return async (clinician) => {
@@ -32,30 +32,15 @@ export const createClinician = (dispatch) => {
     })
 
     try {
-      const response = await fetch(`${rapcorApiUrl}/v1/clinicians`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+      const json = await post('/v1/clinicians', payload)
+      
+      dispatch({
+        type: CREATE_CLINICIAN_SUCCESS,
+        payload: {
+          clinician: json.clinician,
+          token: json.token
+        }
       })
-      const json = await response.json()
-
-      if (json.errors) {
-        dispatch({
-          type: CREATE_CLINICIAN_FAILURE,
-          errors: json.errors
-        })
-      } else {
-        dispatch({
-          type: CREATE_CLINICIAN_SUCCESS,
-          payload: {
-            clinician: json.clinician,
-            token: json.token
-          }
-        })
-      }
     } catch (error) {
       dispatch({
         type: CREATE_CLINICIAN_FAILURE
@@ -76,15 +61,7 @@ export const editClinician = (token) => {
       })
 
       try {
-        const response = await fetch(`${rapcorApiUrl}/v1/clinicians/${clinician.id}`, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        })
-        const json = await response.json()
+        const json = await post(`/v1/clinicians/${clinician.id}`, payload, token)
 
         dispatch({
           type: EDIT_CLINICIAN_SUCCESS,

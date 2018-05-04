@@ -2,9 +2,6 @@ import { Router } from 'react-router-dom';
 import React, { Component, Fragment } from 'react';
 import { Provider } from 'react-redux';
 
-import logo from './logo.svg';
-import './App.css';
-
 import Routes from './routes';
 import TopNav from './components/TopNav';
 import store from './store';

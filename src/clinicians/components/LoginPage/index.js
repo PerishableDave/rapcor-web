@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Input } from '../../shared/Form'
-import Card from '../../shared/Card'
-import { createClinicianToken } from '../../../store/clinicians/authentication'
+import { Form, Input } from '../../../components/shared/Form'
+import Card from '../../../components/shared/Card'
+import { createClinicianToken } from '../../store/authentication'
 
-class Login extends Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => ({
   createClinicianToken: createClinicianToken(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
