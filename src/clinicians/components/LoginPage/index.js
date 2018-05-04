@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Input } from '../../../components/shared/Form'
 import Card from '../../../components/shared/Card'
-import { createClinicianToken } from '../../store/authentication'
+import { login } from '../../store/authentication'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class LoginPage extends Component {
     const email = this.state.email
     const password = this.state.password
 
-    this.props.createClinicianToken(email, password)
+    this.props.login(email, password)
     event.preventDefault()
   }
 
@@ -59,7 +59,7 @@ class LoginPage extends Component {
 const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
-  createClinicianToken: createClinicianToken(dispatch)
+  login: login(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

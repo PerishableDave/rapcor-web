@@ -4,9 +4,10 @@ import {
   CREATE_CLINICIAN_TOKEN_FAILURE
 } from './actions'
 import { rapcorApiUrl } from '../../../config'
+import { post } from '../../../lib/rapcor-api'
 import history from '../../../store/history'
 
-export const createClinicianToken = (dispatch) => {
+export const login = (dispatch) => {
   return async (email, password) => {
     const payload = {
       email: email,
@@ -18,21 +19,12 @@ export const createClinicianToken = (dispatch) => {
     })
 
     try {
-      const response = await fetch(`${rapcorApiUrl}/v1/clinicians/tokens`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-
-      const json = await response.json()
+      const json = await post('/v1/clinicians/tokens', payload)
 
       dispatch({
         type: CREATE_CLINICIAN_TOKEN_SUCCESS,
         payload: {
-          token: json.data.id
+          token: json.token.id
         }
       })
 

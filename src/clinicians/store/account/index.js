@@ -7,7 +7,8 @@ import {
   EDIT_CLINICIAN_FAILURE
 } from './actions'
 import { post } from '../../../lib/rapcor-api'
-
+import { login } from '../authentication'
+ 
 export const createClinician = (dispatch) => {
   return async (clinician) => {
     const payload = {
@@ -38,9 +39,10 @@ export const createClinician = (dispatch) => {
         type: CREATE_CLINICIAN_SUCCESS,
         payload: {
           clinician: json.clinician,
-          token: json.token
         }
       })
+
+      login(dispatch)(clinician.email, clinician.password)
     } catch (error) {
       dispatch({
         type: CREATE_CLINICIAN_FAILURE
