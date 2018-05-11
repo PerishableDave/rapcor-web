@@ -14,7 +14,8 @@ export default class ClinicianForm extends Component {
     address2: PropTypes.string,
     city: PropTypes.string,
     state: PropTypes.string,
-    zip: PropTypes.string
+    zip: PropTypes.string,
+    submitText: PropTypes.string
   }
 
   constructor(props) {
@@ -135,7 +136,7 @@ export default class ClinicianForm extends Component {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary float-right">Sign Up</button>
+        <button type="submit" className="btn btn-primary float-right">{ this.props.submitText }</button>
       </Form>
     )
   }

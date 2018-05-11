@@ -14,7 +14,7 @@ class TopNav extends PureComponent {
             <Link className="nav-link" to="/about">Contact</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/clinicians/account">Account</Link>
+            <Link className="nav-link" to="/clinicians/account/info">Account</Link>
           </li>
         </ul>
       </div>

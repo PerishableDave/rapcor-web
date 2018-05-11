@@ -18,7 +18,7 @@ class SignUpPage extends Component {
   render() {
     return (
       <Card title="Sign Up">
-        <ClinicianAccountForm onSubmit={this.handleSubmit} />
+        <ClinicianAccountForm submitText="Sign Up" onSubmit={this.handleSubmit} />
       </Card>
     )
   }

@@ -3,7 +3,6 @@ import {
   CREATE_CLINICIAN_TOKEN_SUCCESS,
   CREATE_CLINICIAN_TOKEN_FAILURE
 } from './actions'
-import { rapcorApiUrl } from '../../../config'
 import { post } from '../../../lib/rapcor-api'
 import history from '../../../store/history'
 
