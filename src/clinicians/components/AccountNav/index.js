@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import './style.css'
 
@@ -8,13 +8,13 @@ export default class AccountNav extends Component {
     return (
       <ul className="nav nav-pills" id="accountNav">
         <li className="nav-item">
-          <Link className="nav-link active" to="/clinicians/account/info">Info</Link>
+          <NavLink className="nav-link" activeClassName="active" to="/clinicians/account/info">Info</NavLink>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/clinicians/account/experience">Experience</Link>
+          <NavLink className="nav-link" activeClassName="active" to="/clinicians/account/experience">Experience</NavLink>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/clinicians/account/credentials">Credentials</Link>
+          <NavLink className="nav-link" activeClassName="active" to="/clinicians/account/credentials">Credentials</NavLink>
         </li>
       </ul>
     )

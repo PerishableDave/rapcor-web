@@ -5,7 +5,7 @@ import AccountNav from '../AccountNav'
 import ClinicianForm from '../ClinicianForm'
 import Loader from '../../../components/shared/Loader'
 import { getClinicianToken } from '../../store/authentication'
-import { fetchCurrentClinician } from '../../store/account'
+import { fetchCurrentClinician, editClinician } from '../../store/account'
 import { getCurrentClinician, getClinicianIsLoading } from '../../store/account/reducer'
 
 class AccountPage extends Component {
@@ -16,7 +16,7 @@ class AccountPage extends Component {
 
   render() {
     let form = this.props.clinician ? (
-      <ClinicianForm submitText="Save" onSubmit={this.submitHandler} {...this.props.clinician} />
+      <ClinicianForm submitText="Save" onSubmit={this.props.editClinician} {...this.props.clinician} />
     ) : (
       <Loader />
     )
@@ -44,13 +44,15 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCurrentClinician: fetchCurrentClinician(dispatch)
+  fetchCurrentClinician: fetchCurrentClinician(dispatch),
+  editClinician: editClinician(dispatch)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
-  fetchCurrentClinician: dispatchProps.fetchCurrentClinician(stateProps.token)
+  fetchCurrentClinician: dispatchProps.fetchCurrentClinician(stateProps.token),
+  editClinician: dispatchProps.editClinician(stateProps.token)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AccountPage)

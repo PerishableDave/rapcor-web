@@ -9,7 +9,7 @@ import {
   FETCH_CURRENT_CLINICIAN_SUCCESS,
   FETCH_CURRENT_CLINICIAN_FAILURE
 } from './actions'
-import { post, get } from '../../../lib/rapcor-api'
+import { post, get, put } from '../../../lib/rapcor-api'
 import { login } from '../authentication'
 
 const deserialize = (json) => {
@@ -29,24 +29,28 @@ const deserialize = (json) => {
     country: clinician.country,
   }
 }
+
+const serialize = (clinician) => {
+  return {
+    first_name: clinician.firstName,
+    last_name: clinician.lastName,
+    middle_name: clinician.middle_name,
+    email: clinician.email,
+    phone_number: clinician.phoneNumber,
+    thoroughfare: clinician.address,
+    premise: clinician.address2,
+    locality: clinician.city,
+    administrative_area: clinician.state,
+    postal_code: clinician.zip,
+    country: clinician.country,
+    password: clinician.password
+  }
+}
  
 export const createClinician = (dispatch) => {
   return async (clinician) => {
     const payload = {
-      clinician: {
-        first_name: clinician.firstName,
-        last_name: clinician.lastName,
-        middle_name: clinician.middle_name,
-        email: clinician.email,
-        phone_number: clinician.phoneNumber,
-        thoroughfare: clinician.address,
-        premise: clinician.address2,
-        locality: clinician.city,
-        administrative_area: clinician.state,
-        postal_code: clinician.zip,
-        country: clinician.country,
-        password: clinician.password
-      }
+      clinician: serialize(clinician)
     }
 
     dispatch({
@@ -72,11 +76,11 @@ export const createClinician = (dispatch) => {
   }
 }
 
-export const editClinician = (token) => {
-  return (dispatch) => {
+export const editClinician = (dispatch) => {
+  return (token) => {
     return async (clinician) => {
       const payload = {
-        clinician: clinician
+        clinician: serialize(clinician)
       }
 
       dispatch({
@@ -84,7 +88,7 @@ export const editClinician = (token) => {
       })
 
       try {
-        const json = await post(`/v1/clinicians/${clinician.id}`, payload, token)
+        const json = await put('/v1/clinicians/current', payload, token)
 
         dispatch({
           type: EDIT_CLINICIAN_SUCCESS,
