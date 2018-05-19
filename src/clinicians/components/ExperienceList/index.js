@@ -1,18 +1,26 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+export class ExperienceListItemModel {
+  constructor(experience, clinicianExperience) {
+    this.id = experience.id
+    this.description = experience.description
+    this.years = clinicianExperience ? clinicianExperience.years : undefined
+  }
+}
+
 class ExperienceListItem extends Component {
   static propTypes = {
-    experience: PropTypes.object
+    model: PropTypes.object
   }
 
   render() {
-    const experience = this.props.experience
+    const model = this.props.model
     return (
       <div className="form-group row experience-list-item">
-        <label className="col-md-8 col-form-label" htmlFor="">{ experience.description }</label>
+        <label className="col-md-8 col-form-label" htmlFor="">{ model.description }</label>
         <div className="col-md-4">
-          <input type="number" className="form-control" />
+          <input type="number" className="form-control" value={model.years} />
         </div>
       </div>
     )
@@ -21,16 +29,16 @@ class ExperienceListItem extends Component {
 
 export default class ExperienceList extends Component {
   static propTypes = {
-    experiences: PropTypes.arrayOf(PropTypes.object)
+    experienceListItemModels: PropTypes.arrayOf(PropTypes.object)
   }
 
   render() {
-    const experiences = this.props.experiences
+    const models = this.props.experienceListItemModels || []
 
-    const listItems = experiences.map((experience) =>
+    const listItems = models.map((model) =>
       <ExperienceListItem 
-        key={experience.id}
-        experience={experience} />
+        key={model.id}
+        model={model} />
     )
 
     return (

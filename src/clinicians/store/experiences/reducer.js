@@ -1,39 +1,52 @@
+import { combineReducers } from 'redux'
 import {
   FETCH_EXPERIENCES_REQUEST,
   FETCH_EXPERIENCES_SUCCESS,
-  FETCH_EXPERIENCES_FAILURE
+  FETCH_EXPERIENCES_FAILURE,
 } from './actions'
 
-const defaultState = {
-  isLoading: false,
-  experiences: [],
-  error: null
+const experiences = (state = [], action) => {
+  switch (action.type) {
+    case FETCH_EXPERIENCES_SUCCESS:
+      return action.payload
+    default:
+      return state
+  }
 }
-
-export default (state = defaultState, action) => {
+const isLoading = (state = false, action) => {
   switch (action.type) {
     case FETCH_EXPERIENCES_REQUEST:
-      return {
-        ...state,
-        isLoading: true
-      }
+      return true
     case FETCH_EXPERIENCES_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        experiences: action.payload
-      }
     case FETCH_EXPERIENCES_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error
-      }
+      return false
     default:
       return state
   }
 }
 
+const error = (state = null, action) => {
+  switch (action.type) {
+    case FETCH_EXPERIENCES_FAILURE:
+      return action.error
+    case FETCH_EXPERIENCES_REQUEST:
+    case FETCH_EXPERIENCES_SUCCESS:
+      return null
+    default:
+      return state
+  }
+}
+
+export default combineReducers({
+  experiences,
+  isLoading,
+  error
+})
+
 export const getExperiences = (state) => {
-  return state.clinicians.experiences.experiences
+  return state.experiences
+}
+
+export const isExperiencesLoading = (state) => {
+  return state.isLoading
 }

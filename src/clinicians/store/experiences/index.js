@@ -5,20 +5,30 @@ import {
 } from './actions'
 import { get } from '../../../lib/rapcor-api'
 
-export const fetchExperiences = async (dispatch) => {
-  dispatch({ type: FETCH_EXPERIENCES_REQUEST })
+const deserialize = (json) => {
+  return {
+    id: json.id,
+    description: json.description
+  }
+}
 
-  try {
-    const json = await get('/v1/experiences')
+export const fetchExperiences = (dispatch) => {
+  return async () => {
+    dispatch({ type: FETCH_EXPERIENCES_REQUEST })
 
-    dispatch({
-      type: FETCH_EXPERIENCES_SUCCESS,
-      payload: json.experiences
-    }) 
-  } catch (error) {
-    dispatch({
-      type: FETCH_EXPERIENCES_FAILURE,
-      error: error
-    })
+    try {
+      const json = await get('/v1/experiences')
+      const experiences = json.experiences.map(json => deserialize(json))
+
+      dispatch({
+        type: FETCH_EXPERIENCES_SUCCESS,
+        payload: experiences
+      }) 
+    } catch (error) {
+      dispatch({
+        type: FETCH_EXPERIENCES_FAILURE,
+        error: error
+      })
+    }
   }
 }

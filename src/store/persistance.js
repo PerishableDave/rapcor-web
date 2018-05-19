@@ -1,6 +1,11 @@
 export const saveSession = (store) => {
   try {
-    const serializedState = JSON.stringify(store);
+    const session = {
+      clinicians: {
+        authentication: store.clinicians.authentication
+      }
+    }
+    const serializedState = JSON.stringify(session);
     sessionStorage.setItem('sessionState', serializedState)
   } catch (err) {
     // TODO Log error.

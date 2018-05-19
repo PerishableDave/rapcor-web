@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
-import ExperienceList from '../../components/ExperienceList'
+import ExperienceList, { ExperienceListItemModel } from '../../components/ExperienceList'
+import { getClinicianToken } from '../../store/authentication'
 import { fetchExperiences } from '../../store/experiences'
 import { getExperiences } from '../../store/experiences/reducer'
+import { fetchClinicianExperiences } from '../../store/clinicianExperiences'
+import { getClinicianExperience } from '../../store/clinicianExperiences/reducer'
 
 class AccountExperiencePage extends Component {
 
   componentDidMount() {
-    fetchExperiences()
+    this.props.fetchExperiences()
+    this.props.fetchClinicianExperiences()
   }
 
   render() {
@@ -22,7 +26,7 @@ class AccountExperiencePage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <ExperienceList experiences={ this.props.experiences } />
+            <ExperienceList experienceListItemModels={ this.props.experiencesListItemModels } />
           </div>
         </div>
       </div>
@@ -30,12 +34,29 @@ class AccountExperiencePage extends Component {
   }
 }
 
+const createExperienceListItemModels = (state) => {
+  const experiences = getExperiences(state.clinicians.experiences)
+
+  return experiences.map(experience => {
+    const clinicianExperience = getClinicianExperience(experience.id, state.clinicians.clinicianExperiences)
+    return new ExperienceListItemModel(experience, clinicianExperience)
+  })
+}
+
 const mapStateToProps = (state) => ({
-  experiences: getExperiences(state)
+  experiencesListItemModels: createExperienceListItemModels(state),
+  token: getClinicianToken(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchExperiences: fetchExperiences(dispatch)
+  fetchExperiences: fetchExperiences(dispatch),
+  fetchClinicianExperiences: fetchClinicianExperiences(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountExperiencePage)
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  fetchClinicianExperiences: dispatchProps.fetchClinicianExperiences(stateProps.token)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AccountExperiencePage)
