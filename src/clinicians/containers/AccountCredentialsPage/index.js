@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
+import CredentialForm from '../../components/CredentialForm'
+
+const initialValues = {
+  description: "test"
+}
 
 class AccountCredentialsPage extends Component {
   render() {
@@ -14,6 +19,7 @@ class AccountCredentialsPage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
+            <CredentialForm initialValues={initialValues} />
           </div>
         </div>
       </div>

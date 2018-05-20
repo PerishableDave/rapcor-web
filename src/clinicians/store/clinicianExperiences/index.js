@@ -10,7 +10,6 @@ import { get, post } from '../../../lib/rapcor-api'
 
 const deserializeClinicianExperience = (json) => {
   return {
-    id: json.id,
     experienceId: json.experience_id,
     years: json.years
   }

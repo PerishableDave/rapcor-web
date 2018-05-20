@@ -1,51 +1,63 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Field, FieldArray, reduxForm } from 'redux-form'
 
-export class ExperienceListItemModel {
-  constructor(experience, clinicianExperience) {
-    this.id = experience.id
-    this.description = experience.description
-    this.years = clinicianExperience ? clinicianExperience.years : undefined
-  }
+const validateNumber = value => {
+  return value === null || value === "" || isNaN(Number(value)) || value < 0 ? "Required" : undefined
 }
 
-class ExperienceListItem extends Component {
-  static propTypes = {
-    model: PropTypes.object
-  }
+const createDescription = (field) => (
+  <div className={field.className}>{field.input.value}</div>
+)
 
-  render() {
-    const model = this.props.model
-    return (
-      <div className="form-group row experience-list-item">
-        <label className="col-md-8 col-form-label" htmlFor="">{ model.description }</label>
-        <div className="col-md-4">
-          <input type="number" className="form-control" value={model.years} />
-        </div>
-      </div>
-    )
-  }
+const createYearInput = field => {
+  const className = field.meta.error ? "form-control is-invalid" : "form-control"
+  return (
+    <input {...field.input} type="number" className={className} />
+  )
 }
 
-export default class ExperienceList extends Component {
-  static propTypes = {
-    experienceListItemModels: PropTypes.arrayOf(PropTypes.object)
-  }
+const renderExperience = (member, index, fields) => (
+  <li key={index} className="form-group row experience-list-item">
+    <Field
+      name={`${member}.experienceId`}
+      component="input"
+      type="hidden" />
+    <Field
+      name={`${member}.description`}
+      component="input"
+      type="text"
+      className="col-md-8 col-form-label form-control-plaintext"
+      readOnly />
+    <div className="col-md-4">
+      <Field
+        name={`${member}.years`}
+        component={createYearInput}
+        type="number"
+        className="form-control" 
+        validate={validateNumber} />
+    </div>
+  </li>
+)
 
-  render() {
-    const models = this.props.experienceListItemModels || []
+const renderExperiences = ({ fields, meta: { error, submitFailed }}) => (
+  <ul>
+    {fields.map(renderExperience)}
+  </ul>
+)
 
-    const listItems = models.map((model) =>
-      <ExperienceListItem 
-        key={model.id}
-        model={model} />
-    )
+const ExperienceList = props => {
+  const { handleSubmit, pristine, submitting, invalid} = props
 
-    return (
-      <form>
-        { listItems }
-        <button type="submit" className="btn btn-primary float-right">Save</button>
-      </form>
-    )
-  }
+  return (
+    <form onSubmit={handleSubmit} >
+      <FieldArray name="experiences" component={renderExperiences} />
+      <button type="submit" className="btn btn-primary float-right" disabled={pristine || submitting || invalid} >Save</button>
+    </form>
+  )
 }
+
+export default reduxForm({
+  form: "ExperienceList",
+  enableReinitialize: true
+})(ExperienceList)

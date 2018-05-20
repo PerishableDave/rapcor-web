@@ -2,12 +2,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
-import ExperienceList, { ExperienceListItemModel } from '../../components/ExperienceList'
+import ExperienceList  from '../../components/ExperienceList'
 import { getClinicianToken } from '../../store/authentication'
 import { fetchExperiences } from '../../store/experiences'
 import { getExperiences } from '../../store/experiences/reducer'
 import { fetchClinicianExperiences } from '../../store/clinicianExperiences'
 import { getClinicianExperience } from '../../store/clinicianExperiences/reducer'
+
+const initialValues = {
+  experiences: [{
+    experienceId: 1,
+    descrption: "One",
+    years: 1
+  }, {
+    experienceId: 2,
+    description: "Two",
+    years: 2
+  }]
+}
 
 class AccountExperiencePage extends Component {
 
@@ -17,6 +29,10 @@ class AccountExperiencePage extends Component {
   }
 
   render() {
+    const listValues = {
+      experiences: this.props.experiences
+    }
+
     return (
       <div className="container">
         <div className="row justify-content-center">
@@ -26,7 +42,7 @@ class AccountExperiencePage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <ExperienceList experienceListItemModels={ this.props.experiencesListItemModels } />
+            <ExperienceList initialValues={listValues} />
           </div>
         </div>
       </div>
@@ -34,18 +50,22 @@ class AccountExperiencePage extends Component {
   }
 }
 
-const createExperienceListItemModels = (state) => {
+const createExperienceItems = (state) => {
   const experiences = getExperiences(state.clinicians.experiences)
 
   return experiences.map(experience => {
     const clinicianExperience = getClinicianExperience(experience.id, state.clinicians.clinicianExperiences)
-    return new ExperienceListItemModel(experience, clinicianExperience)
+    return {
+      experienceId: experience.id,
+      description: experience.description,
+      years: clinicianExperience ? clinicianExperience.years : null
+    }
   })
 }
 
 const mapStateToProps = (state) => ({
-  experiencesListItemModels: createExperienceListItemModels(state),
-  token: getClinicianToken(state)
+  token: getClinicianToken(state),
+  experiences: createExperienceItems(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
