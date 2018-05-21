@@ -15,6 +15,7 @@ const setCliniciansByExperienceId = (map, clinician) => {
 const clinicianExperiencesByExperienceId = (state = new Map(), action) => {
   switch (action.type) {
     case FETCH_CLINICIAN_EXPERIENCES_SUCCESS:
+    case UPDATE_CLINICIAN_EXPERIENCES_SUCCESS:
       return action.payload.reduce(setCliniciansByExperienceId, state)
     default:
       return state

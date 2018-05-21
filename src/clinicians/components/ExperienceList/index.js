@@ -1,14 +1,9 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 
 const validateNumber = value => {
   return value === null || value === "" || isNaN(Number(value)) || value < 0 ? "Required" : undefined
 }
-
-const createDescription = (field) => (
-  <div className={field.className}>{field.input.value}</div>
-)
 
 const createYearInput = field => {
   const className = field.meta.error ? "form-control is-invalid" : "form-control"

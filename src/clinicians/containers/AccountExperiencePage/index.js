@@ -6,22 +6,20 @@ import ExperienceList  from '../../components/ExperienceList'
 import { getClinicianToken } from '../../store/authentication'
 import { fetchExperiences } from '../../store/experiences'
 import { getExperiences } from '../../store/experiences/reducer'
-import { fetchClinicianExperiences } from '../../store/clinicianExperiences'
+import { fetchClinicianExperiences, updateClinicianExperiences } from '../../store/clinicianExperiences'
 import { getClinicianExperience } from '../../store/clinicianExperiences/reducer'
 
-const initialValues = {
-  experiences: [{
-    experienceId: 1,
-    descrption: "One",
-    years: 1
-  }, {
-    experienceId: 2,
-    description: "Two",
-    years: 2
-  }]
-}
-
 class AccountExperiencePage extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(form) {
+    const { experiences } = form
+    this.props.updateClinicianExperiences(experiences)
+  }
 
   componentDidMount() {
     this.props.fetchExperiences()
@@ -42,7 +40,9 @@ class AccountExperiencePage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <ExperienceList initialValues={listValues} />
+            <ExperienceList 
+              initialValues={listValues}
+              onSubmit={this.handleSubmit} />
           </div>
         </div>
       </div>
@@ -70,13 +70,15 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchExperiences: fetchExperiences(dispatch),
-  fetchClinicianExperiences: fetchClinicianExperiences(dispatch)
+  fetchClinicianExperiences: fetchClinicianExperiences(dispatch),
+  updateClinicianExperiences: updateClinicianExperiences(dispatch)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
-  fetchClinicianExperiences: dispatchProps.fetchClinicianExperiences(stateProps.token)
+  fetchClinicianExperiences: dispatchProps.fetchClinicianExperiences(stateProps.token),
+  updateClinicianExperiences: dispatchProps.updateClinicianExperiences(stateProps.token)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AccountExperiencePage)

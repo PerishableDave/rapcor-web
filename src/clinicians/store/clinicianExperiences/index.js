@@ -52,12 +52,12 @@ export const updateClinicianExperiences = (dispatch) => {
 
       const clinicianExperiencesJson = clinicianExperiences.map(clinicianExperience => serializeClinicianExperience(clinicianExperience))
       const payload = {
-        clincian_experiences: clinicianExperiencesJson
+        clinician_experiences: clinicianExperiencesJson
       }
 
       try {
-        const json = await post('/v1/experiences', payload, token)
-        const clinicianExperiences = json.clinicianExperiences.map(json => deserializeClinicianExperience(json))
+        const json = await post('/v1/clinicians/current/experiences', payload, token)
+        const clinicianExperiences = json.clinician_experiences.map(json => deserializeClinicianExperience(json))
 
         dispatch({
           type: UPDATE_CLINICIAN_EXPERIENCES_SUCCESS,
