@@ -6,7 +6,8 @@ const CredentialForm = props => {
 
   return (
     <form onSubmit={handleSubmit} >
-      <Field name="description" component="input" type="text" />
+      <Field name="test.description" component="input" type="text" />
+      <button type="submit" >Submit</button>
     </form>
   )
 }
@@ -14,7 +15,4 @@ const CredentialForm = props => {
 export default reduxForm({
   form: "CredentialForm",
   enableReinitialize: true,
-  initialValues: {
-    description: "Testing"
-  }
 })(CredentialForm)

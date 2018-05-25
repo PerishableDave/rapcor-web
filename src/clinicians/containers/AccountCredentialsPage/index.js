@@ -4,11 +4,17 @@ import { connect } from 'react-redux'
 import AccountNav from '../../components/AccountNav'
 import CredentialForm from '../../components/CredentialForm'
 
-const initialValues = {
-  description: "test"
-}
-
 class AccountCredentialsPage extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(values) {
+    console.log(values)
+  }
+
   render() {
     return (
       <div className="container">
@@ -19,7 +25,7 @@ class AccountCredentialsPage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <CredentialForm initialValues={initialValues} />
+            <CredentialForm onSubmit={this.handleSubmit} />
           </div>
         </div>
       </div>

@@ -35,23 +35,24 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <Card title="Login">
-      <Form onSubmit={this.handleSubmit}>
-        <div className="row">
-          <div className="col">
-            <Input label="Email" type="text" name="email" value={this.state.email} onChange={this.handleInputChange} />
+      <div className="col-md-6 mx-auto">
+        <h3>Login</h3>
+        <Form onSubmit={this.handleSubmit}>
+          <div className="row">
+            <div className="col">
+              <Input label="Email" type="text" name="email" value={this.state.email} onChange={this.handleInputChange} />
+            </div>
           </div>
-        </div>
 
-        <div className="row">
-          <div className="col">
-            <Input label="Password" type="password" name="password" value={this.state.password} onChange={this.handleInputChange} />
+          <div className="row">
+            <div className="col">
+              <Input label="Password" type="password" name="password" value={this.state.password} onChange={this.handleInputChange} />
+            </div>
           </div>
-        </div>
 
-        <button type="submit" className="btn btn-primary float-right">Login</button>
-      </Form>
-    </Card>
+          <button type="submit" className="btn btn-primary float-right">Login</button>
+        </Form>
+      </div>
     )
   }
 }

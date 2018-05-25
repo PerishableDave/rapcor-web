@@ -26,16 +26,19 @@ export class Input extends Component {
   }
 
   render() {
+    const { label, type, placeholder, name, onChange, value, required } = this.props
+    const requiredMark = required ? (<span class="text-danger">*</span>) : undefined
+
     return (
       <div className="form-group">
-        <label htmlFor="">{this.props.label}</label>
+        <label htmlFor="" className="h6 small d-block text-uppercase">{label}{requiredMark}</label>
         <input 
           className="form-control" 
-          type={this.props.type} 
-          placeholder={this.props.placeholder} 
-          name={this.props.name} 
-          onChange={this.props.onChange} 
-          value={this.props.value} />
+          type={type} 
+          placeholder={placeholder} 
+          name={name} 
+          onChange={onChange} 
+          value={value} />
       </div>
     )
   }

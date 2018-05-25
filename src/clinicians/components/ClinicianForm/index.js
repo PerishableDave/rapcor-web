@@ -83,36 +83,36 @@ export default class ClinicianForm extends Component {
       <Form onSubmit={this.handleSubmit}>
         <div className="row">
           <div className="col-md-6">
-            <Input label="First Name" type="text" name="firstName" value={this.state.firstName} onChange={this.handleInputChange} />
+            <Input label="First Name" type="text" name="firstName" required={true} value={this.state.firstName} onChange={this.handleInputChange} />
           </div>
 
           <div className="col-md-6">
-            <Input label="Last Name" type="text" name="lastName" value={this.state.lastName} onChange={this.handleInputChange} />
+            <Input label="Last Name" type="text" name="lastName" required={true} value={this.state.lastName} onChange={this.handleInputChange} />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Email" type="email" name="email" value={this.state.email} onChange={this.handleInputChange} />
+            <Input label="Email" type="email" name="email" required={true} value={this.state.email} onChange={this.handleInputChange} />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Password" type="password" name="password" value={this.state.password} onChange={this.handleInputChange} />
+            <Input label="Password" type="password" name="password" required={true} value={this.state.password} onChange={this.handleInputChange} />
           </div>
         </div>
 
 
         <div className="row">
           <div className="col">
-            <Input label="Phone Number" type="tel" name="phoneNumber" value={this.state.phoneNumber} onChange={this.handlePhoneInput} />
+            <Input label="Phone Number" type="tel" name="phoneNumber" required={true} value={this.state.phoneNumber} onChange={this.handlePhoneInput} />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Address" type="text" name="address" value={this.state.address} onChange={this.handleInputChange} />
+            <Input label="Address" type="text" name="address" required={true} value={this.state.address} onChange={this.handleInputChange} />
           </div>
         </div>
 
@@ -124,15 +124,15 @@ export default class ClinicianForm extends Component {
 
         <div className="row">
           <div className="col-md-6">
-            <Input label="City" type="text" name="city" value={this.state.city} onChange={this.handleInputChange} />
+            <Input label="City" type="text" name="city" required={true} value={this.state.city} onChange={this.handleInputChange} />
           </div>
 
           <div className="col-md-2">
-            <Input label="State" type="text" name="state" value={this.state.state} onChange={this.handleInputChange} />
+            <Input label="State" type="text" name="state" required={true} value={this.state.state} onChange={this.handleInputChange} />
           </div>
 
           <div className="col-md-4">
-            <Input label="Zip" type="text" name="zip" value={this.state.zip} onChange={this.handleInputChange} />
+            <Input label="Zip" type="text" name="zip" required={true} value={this.state.zip} onChange={this.handleInputChange} />
           </div>
         </div>
 
