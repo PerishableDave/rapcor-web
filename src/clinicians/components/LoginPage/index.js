@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Input } from '../../../components/shared/Form'
-import Card from '../../../components/shared/Card'
 import { login } from '../../store/authentication'
 
 class LoginPage extends Component {

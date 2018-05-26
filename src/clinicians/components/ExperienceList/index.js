@@ -13,7 +13,7 @@ const createYearInput = field => {
 }
 
 const renderExperience = (member, index, fields) => (
-  <li key={index} className="form-group row experience-list-item">
+  <div key={index} className="form-group row">
     <Field
       name={`${member}.experienceId`}
       component="input"
@@ -32,13 +32,13 @@ const renderExperience = (member, index, fields) => (
         className="form-control" 
         validate={validateNumber} />
     </div>
-  </li>
+  </div>
 )
 
 const renderExperiences = ({ fields, meta: { error, submitFailed }}) => (
-  <ul>
+  <div>
     {fields.map(renderExperience)}
-  </ul>
+  </div>
 )
 
 const ExperienceList = props => {

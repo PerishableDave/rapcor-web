@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ClinicianAccountForm from '../ClinicianForm'
-import Card from '../../../components/shared/Card'
 import { createClinician } from '../../store/account'
 
 class SignUpPage extends Component {

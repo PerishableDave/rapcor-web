@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
-import CredentialForm from '../../components/CredentialForm'
+import RespiratoryCredentialForm from '../../components/RespiratoryCredentialForm'
 
 class AccountCredentialsPage extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class AccountCredentialsPage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <CredentialForm onSubmit={this.handleSubmit} />
+            <RespiratoryCredentialForm onSubmit={this.handleSubmit} />
           </div>
         </div>
       </div>
