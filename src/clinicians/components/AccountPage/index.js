@@ -51,7 +51,6 @@ const mapDispatchToProps = (dispatch) => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   ...dispatchProps,
-  fetchCurrentClinician: dispatchProps.fetchCurrentClinician(stateProps.token),
   editClinician: dispatchProps.editClinician(stateProps.token)
 })
 

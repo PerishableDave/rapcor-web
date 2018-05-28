@@ -11,7 +11,7 @@ class TopNav extends PureComponent {
       <div className="collapse navbar-collapse" id="navbarToggleMenu">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link className="nav-link" to="/about">Contact</Link>
+            <Link className="nav-link " to="/clinicians/requests">Requests</Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/clinicians/account/info">Account</Link>
@@ -21,9 +21,6 @@ class TopNav extends PureComponent {
     ) : (
       <div className="collapse navbar-collapse" id="navbarToggleMenu">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/about">Contact</Link>
-          </li>
         </ul>
 
         <Link className="btn btn-primary my-2 my-sm-0" to="/clinicians/signup">Sign Up</Link>

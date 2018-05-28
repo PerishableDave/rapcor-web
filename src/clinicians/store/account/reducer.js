@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux'
 import {
   CREATE_CLINICIAN_REQUEST,
   CREATE_CLINICIAN_SUCCESS,
@@ -9,46 +10,58 @@ import {
   FETCH_CURRENT_CLINICIAN_SUCCESS,
   FETCH_CURRENT_CLINICIAN_FAILURE
 } from './actions'
+import { deserialize } from './serializer'
 
-export default (state = {}, {type, payload}) => {
+export const clinician = (state = null, { type, payload }) => {
   switch (type) {
-    case CREATE_CLINICIAN_REQUEST:
-      return {...state, isLoading: true}
     case CREATE_CLINICIAN_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        clinician: payload.clinician
-      }
-    case CREATE_CLINICIAN_FAILURE:
-      return {...state, isLoading: false}
-    case EDIT_CLINICIAN_REQUEST:
-      return {...state, isLoading: true}
     case EDIT_CLINICIAN_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        clinician: payload.clinician
-      }
-    case EDIT_CLINICIAN_FAILURE:
-      return {...state, isLoading: false}
-    case FETCH_CURRENT_CLINICIAN_REQUEST:
-      return {...state, isLoading: true}
+      return payload.clinician
     case FETCH_CURRENT_CLINICIAN_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        clinician: payload.clinician
-      }
-    case FETCH_CURRENT_CLINICIAN_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-      }
+      return deserialize(payload)
     default:
       return state
   }
 }
+
+export const isLoading = (state = false, { type, payload }) => {
+  switch (type) {
+    case CREATE_CLINICIAN_REQUEST:
+    case EDIT_CLINICIAN_REQUEST:
+    case FETCH_CURRENT_CLINICIAN_REQUEST:
+      return true
+    case CREATE_CLINICIAN_SUCCESS:
+    case CREATE_CLINICIAN_FAILURE:
+    case EDIT_CLINICIAN_SUCCESS:
+    case EDIT_CLINICIAN_FAILURE:
+    case FETCH_CURRENT_CLINICIAN_SUCCESS:
+    case FETCH_CURRENT_CLINICIAN_FAILURE:
+      return false
+    default:
+       return state
+  }
+}
+
+export const error = (state = null, { type, error }) => {
+  switch (type) {
+    case CREATE_CLINICIAN_REQUEST:
+    case EDIT_CLINICIAN_REQUEST:
+    case FETCH_CURRENT_CLINICIAN_REQUEST:
+      return null
+    case CREATE_CLINICIAN_FAILURE:
+    case EDIT_CLINICIAN_FAILURE:
+    case FETCH_CURRENT_CLINICIAN_FAILURE:
+      return error
+    default:
+      return state
+  }
+}
+
+export default combineReducers({
+  clinician,
+  isLoading,
+  error
+})
 
 export const getCurrentClinician = (state) => {
   return state.clinicians.account.clinician

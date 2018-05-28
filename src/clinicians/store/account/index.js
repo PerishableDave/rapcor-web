@@ -10,43 +10,10 @@ import {
   FETCH_CURRENT_CLINICIAN_FAILURE
 } from './actions'
 import { post, get, put } from '../../../lib/rapcor-api'
+import { RAPCOR_API } from '../../../store/rapcor-api'
 import { login } from '../authentication'
+import { serialize, deserialize } from './serializer'
 
-const deserialize = (json) => {
-  const { clinician } = json
-
-  return {
-    firstName: clinician.first_name,
-    lastName: clinician.last_name,
-    middleName: clinician.middle_name,
-    email: clinician.email,
-    phoneNumber: clinician.phone_number,
-    address: clinician.thoroughfare,
-    address2: clinician.premise,
-    city: clinician.locality,
-    state: clinician.administrative_area,
-    zip: clinician.postal_code,
-    country: clinician.country,
-  }
-}
-
-const serialize = (clinician) => {
-  return {
-    first_name: clinician.firstName,
-    last_name: clinician.lastName,
-    middle_name: clinician.middle_name,
-    email: clinician.email,
-    phone_number: clinician.phoneNumber,
-    thoroughfare: clinician.address,
-    premise: clinician.address2,
-    locality: clinician.city,
-    administrative_area: clinician.state,
-    postal_code: clinician.zip,
-    country: clinician.country,
-    password: clinician.password
-  }
-}
- 
 export const createClinician = (dispatch) => {
   return async (clinician) => {
     const payload = {
@@ -106,25 +73,17 @@ export const editClinician = (dispatch) => {
 }
 
 export const fetchCurrentClinician = (dispatch) => {
-  return (token) => {
-    return async (clinician) => {
-      dispatch({
-        type: FETCH_CURRENT_CLINICIAN_REQUEST
-      })
-
-      try {
-        const json = await get('/v1/clinicians/current', token)
-        dispatch({
-          type: FETCH_CURRENT_CLINICIAN_SUCCESS,
-          payload: {
-            clinician: deserialize(json)
-          }
-        })
-      } catch (error) {
-        dispatch({
-          type: FETCH_CURRENT_CLINICIAN_FAILURE
-        })
+  return () => {
+    dispatch({
+      type: RAPCOR_API,
+      types: [
+        FETCH_CURRENT_CLINICIAN_REQUEST,
+        FETCH_CURRENT_CLINICIAN_SUCCESS,
+        FETCH_CURRENT_CLINICIAN_FAILURE
+      ],
+      config: {
+        url: '/v1/clinicians/current'
       }
-    }
+    })
   }
 }
