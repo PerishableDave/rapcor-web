@@ -10,7 +10,7 @@ import {
   FETCH_CURRENT_CLINICIAN_FAILURE
 } from './actions'
 import { post, get, put } from '../../../lib/rapcor-api'
-import { RAPCOR_API } from '../../../store/rapcor-api'
+import { getClinicianToken } from '../authentication/reducer'
 import { login } from '../authentication'
 import { serialize, deserialize } from './serializer'
 
@@ -43,47 +43,55 @@ export const createClinician = (dispatch) => {
   }
 }
 
-export const editClinician = (dispatch) => {
-  return (token) => {
-    return async (clinician) => {
-      const payload = {
-        clinician: serialize(clinician)
-      }
+export const editClinician = (clinician) => {
+  return async (dispatch, getState) => {
+    const token = getClinicianToken(getState())
+
+    const payload = {
+      clinician: serialize(clinician)
+    }
+
+    dispatch({
+      type: EDIT_CLINICIAN_REQUEST
+    })
+
+    try {
+      const json = await put('/v1/clinicians/current', payload, token)
 
       dispatch({
-        type: EDIT_CLINICIAN_REQUEST
+        type: EDIT_CLINICIAN_SUCCESS,
+        payload: {
+          clinician: deserialize(json)
+        }
       })
-
-      try {
-        const json = await put('/v1/clinicians/current', payload, token)
-
-        dispatch({
-          type: EDIT_CLINICIAN_SUCCESS,
-          payload: {
-            clinician: deserialize(json)
-          }
-        })
-      } catch (error) {
-        dispatch({
-          type: EDIT_CLINICIAN_FAILURE
-        })
-      }
+    } catch (error) {
+      dispatch({
+        type: EDIT_CLINICIAN_FAILURE
+      })
     }
   }
 }
 
-export const fetchCurrentClinician = (dispatch) => {
-  return () => {
+export const fetchCurrentClinician = () => {
+  return async (dispatch, getState) => {
     dispatch({
-      type: RAPCOR_API,
-      types: [
-        FETCH_CURRENT_CLINICIAN_REQUEST,
-        FETCH_CURRENT_CLINICIAN_SUCCESS,
-        FETCH_CURRENT_CLINICIAN_FAILURE
-      ],
-      config: {
-        url: '/v1/clinicians/current'
-      }
+      type: FETCH_CURRENT_CLINICIAN_REQUEST
     })
+
+    const token = getClinicianToken(getState())
+
+    try {
+      const json = await get('/v1/clinicians/current', token)
+
+      dispatch({
+        type: FETCH_CURRENT_CLINICIAN_SUCCESS,
+        payload: deserialize(json)
+      })
+    } catch (error) {
+      dispatch({
+        type: FETCH_CURRENT_CLINICIAN_FAILURE,
+        error: error
+      })
+    }
   }
 }

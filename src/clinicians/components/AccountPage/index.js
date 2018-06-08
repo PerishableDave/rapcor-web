@@ -4,19 +4,28 @@ import { connect } from 'react-redux'
 import AccountNav from '../AccountNav'
 import ClinicianForm from '../ClinicianForm'
 import Loader from '../../../components/shared/Loader'
-import { getClinicianToken } from '../../store/authentication'
 import { fetchCurrentClinician, editClinician } from '../../store/account'
-import { getCurrentClinician, getClinicianIsLoading } from '../../store/account/reducer'
+import { getCurrentClinician } from '../../store/account/reducer'
 
 class AccountPage extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
   componentDidMount() {
-    this.props.fetchCurrentClinician()
+    this.props.dispatch(fetchCurrentClinician())
+  }
+
+  handleSubmit(clinician) {
+    this.props.dispatch(editClinician(clinician))
   }
 
   render() {
     let form = this.props.clinician ? (
-      <ClinicianForm submitText="Save" onSubmit={this.props.editClinician} {...this.props.clinician} />
+      <ClinicianForm submitText="Save" onSubmit={this.handleSubmit} {...this.props.clinician} />
     ) : (
       <Loader />
     )
@@ -39,19 +48,7 @@ class AccountPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  clinician: getCurrentClinician(state),
-  token: getClinicianToken(state)
+  clinician: getCurrentClinician(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchCurrentClinician: fetchCurrentClinician(dispatch),
-  editClinician: editClinician(dispatch)
-})
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  editClinician: dispatchProps.editClinician(stateProps.token)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(AccountPage)
+export default connect(mapStateToProps)(AccountPage)

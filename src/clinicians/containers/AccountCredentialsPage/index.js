@@ -3,12 +3,17 @@ import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
 import RespiratoryCredentialForm from '../../components/RespiratoryCredentialForm'
+import { fetchDocuments } from '../../store/documents'
 
 class AccountCredentialsPage extends Component {
   constructor(props) {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchDocuments())
   }
 
   handleSubmit(values) {
@@ -36,7 +41,4 @@ class AccountCredentialsPage extends Component {
 const mapStateToProps = (state) => ({
 })
 
-const mapDispatchToProps = (dispatch) => ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AccountCredentialsPage)
+export default connect(mapStateToProps)(AccountCredentialsPage)

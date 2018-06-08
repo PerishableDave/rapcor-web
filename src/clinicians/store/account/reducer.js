@@ -10,7 +10,6 @@ import {
   FETCH_CURRENT_CLINICIAN_SUCCESS,
   FETCH_CURRENT_CLINICIAN_FAILURE
 } from './actions'
-import { deserialize } from './serializer'
 
 export const clinician = (state = null, { type, payload }) => {
   switch (type) {
@@ -18,7 +17,7 @@ export const clinician = (state = null, { type, payload }) => {
     case EDIT_CLINICIAN_SUCCESS:
       return payload.clinician
     case FETCH_CURRENT_CLINICIAN_SUCCESS:
-      return deserialize(payload)
+      return payload
     default:
       return state
   }
