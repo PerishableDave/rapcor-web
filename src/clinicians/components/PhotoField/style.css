@@ -1,0 +1,17 @@
+.photo-field {
+  display: block;
+}
+
+.photo-field > .file-dropzone {
+  display: block;
+  overflow: hidden;
+}
+
+.photo-field-thumbnail {
+  float: left;
+  height: 50px;
+  width: 50px;
+  margin-right: 16px;
+}
+
+

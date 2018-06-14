@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
 import RespiratoryCredentialForm from '../../components/RespiratoryCredentialForm'
-import { fetchDocuments } from '../../store/documents'
+import { fetchDocuments, createOrUpdateDocuments } from '../../store/documents'
+import { getDocumentBySlug } from '../../store/documents/reducer'
 
 class AccountCredentialsPage extends Component {
   constructor(props) {
@@ -16,8 +17,8 @@ class AccountCredentialsPage extends Component {
     this.props.dispatch(fetchDocuments())
   }
 
-  handleSubmit(values) {
-    console.log(values)
+  handleSubmit(docs) {
+    this.props.dispatch(createOrUpdateDocuments(Object.values(docs)))
   }
 
   render() {
@@ -30,7 +31,9 @@ class AccountCredentialsPage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <RespiratoryCredentialForm onSubmit={this.handleSubmit} />
+            <RespiratoryCredentialForm 
+              onSubmit={this.handleSubmit}
+              initialValues={this.props.documents} documents={this.props.documents} />
           </div>
         </div>
       </div>
@@ -38,7 +41,29 @@ class AccountCredentialsPage extends Component {
   }
 }
 
+const buildClinicianDocuments = (docs) => {
+  const rcp = getDocumentBySlug(docs, "rt-rcp") || {
+    slug: "rt-rcp"
+  }
+
+  const crt = getDocumentBySlug(docs, "rt-crt")
+  const rrt = getDocumentBySlug(docs, "rt-rrt")
+
+  var rcc = null
+  if (crt) {
+    rcc = crt
+  } else {
+    rcc = rrt
+  }
+
+  return {
+    "rt-rcp": rcp,
+    "rt-rcc": rcc
+  }
+}
+
 const mapStateToProps = (state) => ({
+  documents: buildClinicianDocuments(state.clinicians.documents)
 })
 
 export default connect(mapStateToProps)(AccountCredentialsPage)

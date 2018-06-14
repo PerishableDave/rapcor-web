@@ -43,3 +43,37 @@ export class Input extends Component {
     )
   }
 }
+
+export const renderField = field => {
+  const { placeholder, input: { name }, meta: {error, dirty, submitFailed} } = field
+
+
+  const className = "form-control" + (error && (dirty || submitFailed) ? " is-invalid" : "")
+  const type = field.type || "text"
+
+  const label = field.label ? (<label htmlFor={name} className="h6 small d-block text-uppercase">{ field.label }</label>) : ""
+
+  return (
+    <div className="form-group">
+      { label }
+      <input {...field.input} type={type} className={className} placeholder={placeholder} />
+    </div>
+  )
+}
+
+export const renderSelect = field => {
+  const { input: { name }, meta: { error, dirty, submitFailed } } = field
+  const className = "form-control custom-select" + (error && (dirty || submitFailed) ? " is-invalid" : "")
+
+  const label = field.label ? (<label htmlFor={name} className="h6 small d-block text-uppercase">{ field.label }</label>) : ""
+
+  return (
+    <div className="form-group">
+      { label }
+      <select {...field.input} className={className} >
+        { field.children }
+      </select>
+  </div>
+  )
+}
+

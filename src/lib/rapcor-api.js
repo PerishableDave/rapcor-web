@@ -1,4 +1,5 @@
 import { rapcorApiUrl } from '../config'
+import axios from 'axios'
 
 export class ApiError extends Error {
   constructor(errors = {}) {
@@ -7,46 +8,37 @@ export class ApiError extends Error {
   }
 }
 
-const defaultHeaders = {
-  'Accept': 'application/json, text/plain, */*',
-  'Content-Type': 'application/json'
-}
-
-const request = (path, method, body, token) => {
+const request = (path, method, data, token) => {
   const url = rapcorApiUrl + path
-  var headers = defaultHeaders
+
+  let headers = {}
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
   }
 
-  return fetch(url, {
-    method: method,
-    headers: headers,
-    body: body
-  }).then((response) => {
-    if (response.status >= 300) {
-      return response.json().then((json) => {
-        throw new ApiError(json.errors)
-      })
-    }
-    return response.json()
+  return axios({
+    url,
+    headers,
+    method,
+    data
+  }).then(response => {
+    return response.data
   })
 }
 
 export const get = (path, token = null) => {
-  return request(path, 'GET', null, token)
+  return request(path, 'get', null, token)
 }
 
 export const post = (path, payload, token = null) => {
-  const body = JSON.stringify(payload)
-  return request(path, 'POST', body, token)
+  return request(path, 'post', payload, token)
 }
 
 export const put = (path, payload, token = null) => {
-  const body = JSON.stringify(payload)
-  return request(path, 'PUT', body, token)
+  return request(path, 'put', payload, token)
 }
 
-export const del = (path, payload, token = null) => {
-  return request(path, 'DELETE', null, token)
+export const del = (path, token = null) => {
+  return request(path, 'delete', null, token)
 }
+
