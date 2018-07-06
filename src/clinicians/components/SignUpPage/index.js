@@ -16,9 +16,11 @@ class SignUpPage extends Component {
 
   render() {
     return (
-      <div className="col-md-6 mx-auto">
-        <h3>Sign Up</h3>
-        <ClinicianAccountForm submitText="Sign Up" onSubmit={this.handleSubmit} />
+      <div className="container">
+        <div className="col-lg-8 mx-auto">
+          <h3>Sign Up</h3>
+          <ClinicianAccountForm submitText="Sign Up" onSubmit={this.handleSubmit} />
+        </div>
       </div>
     )
   }

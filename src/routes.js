@@ -8,6 +8,7 @@ import AccountPage from './clinicians/components/AccountPage'
 import ClinicianAuth from './clinicians/components/ClinicianAuth'
 import AccountExperiencePage from './clinicians/containers/AccountExperiencePage'
 import AccountCredentialsPage from './clinicians/containers/AccountCredentialsPage'
+import ProviderSignupPage from './providers/containers/ProviderSignupPage'
 
 
 export default () => (
@@ -17,6 +18,7 @@ export default () => (
     <Route exact path='/clinicians/account/credentials' component={ClinicianAuth(AccountCredentialsPage)} />
     <Route exact path='/clinicians/signup' component={SignUpPage} />
     <Route exact path='/clinicians/login' component={LoginPage} />
+    <Route exact path='/providers/signup' component={ProviderSignupPage} />
     <Route exact path='/' component={Home} />
   </Switch>
 );
