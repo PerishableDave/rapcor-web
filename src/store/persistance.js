@@ -3,6 +3,9 @@ export const saveSession = (store) => {
     const session = {
       clinicians: {
         authentication: store.clinicians.authentication
+      },
+      providers: {
+        authentication: store.providers.authentication
       }
     }
     const serializedState = JSON.stringify(session);

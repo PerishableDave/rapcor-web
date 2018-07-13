@@ -38,6 +38,6 @@ export const error = (state = null, { type, error }) => {
 
 export default combineReducers({
   provider,
-  isLoading
+  isLoading,
   error
 })

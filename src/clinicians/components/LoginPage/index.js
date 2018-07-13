@@ -53,7 +53,7 @@ class LoginPage extends Component {
 
             <div className="row">
               <div className="col-md-6">
-                <span className="small text-muted">Do not have an account? </span>
+                <span className="small text-muted">Don't have an account? </span>
                 <Link className="small" to="/clinicians/signup">Sign up</Link>
               </div>
 

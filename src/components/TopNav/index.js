@@ -22,7 +22,7 @@ class TopNav extends PureComponent {
           <Link className="nav-link u-header__nav-link" to="/clinicians/login">Clinicians</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link u-header__nav-link" to="/providers/signup">Providers</Link>
+          <Link className="nav-link u-header__nav-link" to="/providers/login">Providers</Link>
         </li>
       </React.Fragment>
     )

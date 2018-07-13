@@ -30,7 +30,8 @@ export const login = (dispatch) => {
       history.push('/clinicians/account')
     } catch (error) {
       dispatch({
-        type: CREATE_CLINICIAN_TOKEN_FAILURE
+        type: CREATE_CLINICIAN_TOKEN_FAILURE,
+        error: error
       })
     }
   }
