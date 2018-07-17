@@ -12,6 +12,7 @@ import AccountCredentialsPage from './clinicians/containers/AccountCredentialsPa
 import ProviderSignupPage from './providers/containers/ProviderSignupPage'
 import ProviderLoginPage from './providers/containers/ProviderLoginPage'
 import CreateRequestPage from './providers/containers/CreateRequestPage'
+import ProviderRequestsPage from './providers/containers/RequestsPage'
 import withProviderAuth from './providers/components/auth-helper'
 
 
@@ -24,6 +25,7 @@ export default () => (
     <Route exact path='/clinicians/login' component={LoginPage} />
     <Route exact path='/providers/signup' component={ProviderSignupPage} />
     <Route exact path='/providers/login' component={ProviderLoginPage} />
+    <Route exact path='/providers/requests' component={withProviderAuth(ProviderRequestsPage)} />
     <Route exact path='/providers/requests/new' component={withProviderAuth(CreateRequestPage)} />
     <Route exact path='/' component={Home} />
   </Switch>

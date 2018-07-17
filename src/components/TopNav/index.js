@@ -4,28 +4,56 @@ import { Link } from 'react-router-dom'
 
 import './style.css'
 import { isClinicianLoggedIn } from '../../clinicians/store/authentication'
+import { getProviderToken } from '../../providers/store/authentication/reducer'
+
+const guestMenu = props => {
+  return (
+    <React.Fragment>
+      <li className="nav-item">
+        <Link className="nav-link u-header__nav-link" to="/clinicians/login">Clinicians</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link u-header__nav-link" to="/providers/login">Providers</Link>
+      </li>
+    </React.Fragment>
+  )
+}
+
+const clinicianMenu = props => {
+  return (
+    <React.Fragment>
+      <li className="nav-item">
+        <Link className="nav-link u-header__nav-link" to="/clinicians/requests">Requests</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/clinicians/account/info">Account</Link>
+      </li>
+    </React.Fragment>
+  )
+}
+
+const providerMenu = props => {
+  return (
+    <React.Fragment>
+      <li className="nav-item">
+        <Link className="nav-link u-header__nav-link" to="/providers/requests/">Requests</Link>
+      </li>
+    </React.Fragment>
+  )
+}
 
 class TopNav extends PureComponent {
   render () {
-    const navMenu = this.props.isClinicianLoggedIn ? (
-      <React.Fragment>
-        <li className="nav-item">
-          <Link className="nav-link u-header__nav-link" to="/clinicians/requests">Requests</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/clinicians/account/info">Account</Link>
-        </li>
-      </React.Fragment>
-    ) : (
-      <React.Fragment>
-        <li className="nav-item">
-          <Link className="nav-link u-header__nav-link" to="/clinicians/login">Clinicians</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link u-header__nav-link" to="/providers/login">Providers</Link>
-        </li>
-      </React.Fragment>
-    )
+    const { isClinicianLoggedIn, isProviderLoggedIn } = this.props
+
+    let navMenu
+    if (isClinicianLoggedIn) {
+      navMenu = clinicianMenu()
+    } else if (isProviderLoggedIn) {
+      navMenu = providerMenu()
+    } else {
+      navMenu = guestMenu()
+    }
 
     return (
       <header className="u-header">
@@ -53,7 +81,8 @@ class TopNav extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  isClinicianLoggedIn: isClinicianLoggedIn(state)
+  isClinicianLoggedIn: isClinicianLoggedIn(state),
+  isProviderLoggedIn: getProviderToken(state) !== null
 })
 
 export default connect(mapStateToProps)(TopNav)
