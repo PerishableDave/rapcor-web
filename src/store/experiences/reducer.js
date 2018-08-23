@@ -44,9 +44,9 @@ export default combineReducers({
 })
 
 export const getExperiences = (state) => {
-  return state.experiences
+  return state.experiences.experiences
 }
 
 export const isExperiencesLoading = (state) => {
-  return state.isLoading
+  return state.experiences.isLoading
 }

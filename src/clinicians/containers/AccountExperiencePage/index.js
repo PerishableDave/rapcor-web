@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import AccountNav from '../../components/AccountNav'
 import ExperienceList  from '../../components/ExperienceList'
 import { getClinicianToken } from '../../store/authentication'
-import { fetchExperiences } from '../../store/experiences'
-import { getExperiences } from '../../store/experiences/reducer'
+import { fetchExperiences } from '../../../store/experiences'
+import { getExperiences } from '../../../store/experiences/reducer'
 import { fetchClinicianExperiences, updateClinicianExperiences } from '../../store/clinicianExperiences'
 import { getClinicianExperience } from '../../store/clinicianExperiences/reducer'
 
@@ -51,7 +51,7 @@ class AccountExperiencePage extends Component {
 }
 
 const createExperienceItems = (state) => {
-  const experiences = getExperiences(state.clinicians.experiences)
+  const experiences = getExperiences(state)
 
   return experiences.map(experience => {
     const clinicianExperience = getClinicianExperience(experience.id, state.clinicians.clinicianExperiences)

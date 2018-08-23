@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 class RequestsPage extends Component {
-
   render() {
     return (
       <div className="container">
@@ -15,7 +14,6 @@ class RequestsPage extends Component {
 
 const mapStateToProps = state => {}
 
-const mapDispatchToProps = dispatch => ({
-})
+const mapDispatchToProps = dispatch => {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(RequestsPage)

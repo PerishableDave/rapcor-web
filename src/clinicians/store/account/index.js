@@ -16,6 +16,8 @@ import { serialize, deserialize } from './serializer'
 
 export const createClinician = (dispatch) => {
   return async (clinician) => {
+    clinician.country = "US"
+
     const payload = {
       clinician: serialize(clinician)
     }

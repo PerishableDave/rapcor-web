@@ -1,3 +1,8 @@
+import { 
+  serializePhone,
+  deserializePhone
+} from '../../../lib/serializer-helpers'
+
 export const deserialize = (json) => {
   const { clinician } = json
 
@@ -6,7 +11,7 @@ export const deserialize = (json) => {
     lastName: clinician.last_name,
     middleName: clinician.middle_name,
     email: clinician.email,
-    phoneNumber: clinician.phone_number,
+    phoneNumber: deserializePhone(clinician.phone_number),
     address: clinician.thoroughfare,
     address2: clinician.premise,
     city: clinician.locality,
@@ -22,7 +27,7 @@ export const serialize = (clinician) => {
     last_name: clinician.lastName,
     middle_name: clinician.middle_name,
     email: clinician.email,
-    phone_number: clinician.phoneNumber,
+    phone_number: serializePhone(clinician.phoneNumber),
     thoroughfare: clinician.address,
     premise: clinician.address2,
     locality: clinician.city,

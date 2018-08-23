@@ -1,143 +1,159 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Form, Input } from '../../../components/shared/Form'
-import { formatNumber, AsYouType } from 'libphonenumber-js'
+import { Field, reduxForm } from 'redux-form'
+import { 
+  renderField,
+  validateRequired,
+  validateEmail,
+  validatePhone,
+  validatePassword,
+  validateState,
+  validatePostalCode,
+  normalizePhone,
+  normalizeState,
+  normalizePostalCode
+} from '../../../components/shared/Form'
 
-export default class ClinicianForm extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    phoneNumber: PropTypes.string,
-    address: PropTypes.string,
-    address2: PropTypes.string,
-    city: PropTypes.string,
-    state: PropTypes.string,
-    zip: PropTypes.string,
-    submitText: PropTypes.string
-  }
-
+class ClinicianForm extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      firstName: props.firstName || "",
-      lastName: props.lastName || "",
-      email: props.email || "",
-      phoneNumber: props.phoneNumber || "",
-      address: props.address || "",
-      address2: props.address2 || "",
-      city: props.city || "",
-      state: props.state || "",
-      zip: props.zip || "",
-      password: ""
-    }
-
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handlePhoneInput = this.handlePhoneInput.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handlePhoneInput(event) {
-    const input = event.target.value
-    const formattedVal = new AsYouType('US').input(input)
-
-    this.setState({
-      phoneNumber: formattedVal
-    })
-  }
-
-  handleInputChange(event) {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
-    })
-  }
-
-  handleSubmit(event) {
-    const formattedPhone = formatNumber({ country: 'US', phone: this.state.phoneNumber }, 'International')
-
-    const clinician = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      phoneNumber: formattedPhone,
-      address: this.state.address,
-      address2: this.state.address2,
-      city: this.state.city,
-      state: this.state.state,
-      zip: this.state.zip,
-      country: 'US',
-      password: this.state.password
-    }
-
-    this.props.onSubmit(clinician)
-
-    event.preventDefault()
+    this.handleSubmit = this.props.handleSubmit(this.props.onSubmit)
   }
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <div className="row">
           <div className="col-md-6">
-            <Input label="First Name" type="text" name="firstName" required={true} value={this.state.firstName} onChange={this.handleInputChange} />
+            <Field
+              name="firstName"
+              component={ renderField }
+              className="form-control"
+              required={true}
+              validate={validateRequired}
+              label="First Name" />
           </div>
 
           <div className="col-md-6">
-            <Input label="Last Name" type="text" name="lastName" required={true} value={this.state.lastName} onChange={this.handleInputChange} />
+            <Field
+              name="lastName"
+              component={ renderField }
+              className="form-control"
+              required={true}
+              validate={validateRequired}
+              label="Last Name" />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Email" type="email" name="email" required={true} value={this.state.email} onChange={this.handleInputChange} />
+            <Field 
+              name="email"
+              component={ renderField }
+              type="email"
+              required={true}
+              validate={[validateRequired, validateEmail]}
+              placeholder="some@email.com"
+              className="form-control"
+              label="Email" />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Password" type="password" name="password" required={true} value={this.state.password} onChange={this.handleInputChange} />
+            <Field 
+              name="password"
+              component={ renderField }
+              type="password"
+              required={true}
+              validate={ [validateRequired, validatePassword] }
+              className="form-control"
+              label="Password" />
           </div>
         </div>
 
 
         <div className="row">
           <div className="col">
-            <Input label="Phone Number" type="tel" name="phoneNumber" required={true} value={this.state.phoneNumber} onChange={this.handlePhoneInput} />
+            <Field 
+              name="phoneNumber"
+              component={ renderField }
+              type="tel"
+              required={true}
+              validate={[validateRequired, validatePhone]}
+              placeholder="(123) 123-1234"
+              className="form-control"
+              label="Phone Number"
+              normalize={normalizePhone} />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Address" type="text" name="address" required={true} value={this.state.address} onChange={this.handleInputChange} />
+            <Field
+              name="address"
+              component={ renderField }
+              required={true}
+              validate={ validateRequired }
+              className="form-control"
+              label="Address" />
           </div>
         </div>
 
         <div className="row">
           <div className="col">
-            <Input label="Address 2" type="text" name="address2" value={this.state.address2} onChange={this.handleInputChange} />
+            <Field
+              name="address2"
+              component={ renderField }
+              className="form-control"
+              label="Address 2" />
           </div>
         </div>
 
         <div className="row">
           <div className="col-md-6">
-            <Input label="City" type="text" name="city" required={true} value={this.state.city} onChange={this.handleInputChange} />
+            <Field
+              name="city"
+              component={ renderField }
+              required={true}
+              validate={ validateRequired }
+              className="form-control"
+              label="City" />
           </div>
 
           <div className="col-md-2">
-            <Input label="State" type="text" name="state" required={true} value={this.state.state} onChange={this.handleInputChange} />
+            <Field
+              name="state"
+              component={ renderField }
+              required={true}
+              validate={ [validateRequired, validateState] }
+              normalize={ normalizeState }
+              className="form-control"
+              label="State" />
           </div>
 
           <div className="col-md-4">
-            <Input label="Zip" type="text" name="zip" required={true} value={this.state.zip} onChange={this.handleInputChange} />
+            <Field
+              name="zip"
+              component={ renderField }
+              required={true}
+              validate={ [validateRequired, validatePostalCode] }
+              normalize={ normalizePostalCode }
+              className="form-control"
+              label="Zip" />
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary float-right">{ this.props.submitText }</button>
-      </Form>
+        <div className="row">
+          <div className="col-md-12">
+            <button type="submit" className="btn btn-primary float-right">{ this.props.submitText }</button>
+          </div>
+        </div>
+      </form>
     )
   }
 }
+
+export default reduxForm({
+  form: "ClinicianForm",
+})(ClinicianForm)

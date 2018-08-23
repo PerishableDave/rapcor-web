@@ -25,7 +25,10 @@ class AccountPage extends Component {
 
   render() {
     let form = this.props.clinician ? (
-      <ClinicianForm submitText="Save" onSubmit={this.handleSubmit} {...this.props.clinician} />
+      <ClinicianForm 
+        submitText="Save"
+        onSubmit={this.handleSubmit}
+        initialValues={this.props.clinician} />
     ) : (
       <Loader />
     )

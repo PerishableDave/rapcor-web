@@ -3,7 +3,7 @@ import {
   FETCH_EXPERIENCES_SUCCESS,
   FETCH_EXPERIENCES_FAILURE
 } from './actions'
-import { get } from '../../../lib/rapcor-api'
+import { get } from '../../lib/rapcor-api'
 
 const deserialize = (json) => {
   return {

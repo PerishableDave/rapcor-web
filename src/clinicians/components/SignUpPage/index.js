@@ -19,7 +19,9 @@ class SignUpPage extends Component {
       <div className="container">
         <div className="col-lg-8 mx-auto">
           <h3>Sign Up</h3>
-          <ClinicianAccountForm submitText="Sign Up" onSubmit={this.handleSubmit} />
+          <ClinicianAccountForm
+            submitText="Sign Up"
+            onSubmit={this.handleSubmit} />
         </div>
       </div>
     )

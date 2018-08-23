@@ -65,6 +65,28 @@ export const renderField = field => {
   )
 }
 
+export const renderTextarea = field => {
+  const { required, placeholder, input: { name }, meta: {error, touched, submitFailed} } = field
+
+
+  const className = "form-control" + (error && (touched || submitFailed) ? " is-invalid" : "")
+  const type = field.type || "text"
+  const requiredMark = required ? (<span class="text-danger">*</span>) : undefined
+
+  const label = field.label ? (<label htmlFor={name} className="h6 small d-block text-uppercase">{ field.label }{ requiredMark }</label>) : ""
+
+  const errorMsg = error ? (<div className="invalid-feedback">{error}</div>) : undefined
+
+  return (
+    <div className="form-group">
+      { label }
+      <textarea {...field.input} type={type} className={className} placeholder={placeholder} />
+      { errorMsg }
+    </div>
+  )
+}
+
+
 export const renderSelect = field => {
   const { input: { name }, meta: { error, dirty, submitFailed } } = field
   const className = "form-control custom-select" + (error && (dirty || submitFailed) ? " is-invalid" : "")
