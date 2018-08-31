@@ -6,7 +6,10 @@ import {
   renderField,
   renderSelect,
   renderTextarea,
-  validateRequired
+  validateRequired,
+  validatePhone,
+  validateEmail,
+  normalizePhone
 } from '../../../components/shared/Form'
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -26,14 +29,37 @@ class RequestForm extends Component {
   constructor(props) {
     super(props)
 
-    this.handleSubmit = this.props.handleSubmit(this.props.onSubmit)
+    this.handleSubmit = this.props.handleSubmit(this.handleSubmit.bind(this))
     this.handleStartDateChange = this.handleStartDateChange.bind(this)
     this.handleEndDateChange = this.handleEndDateChange.bind(this)
+    this.handleExperiencesChange = this.handleExperiencesChange.bind(this)
 
     this.state = {
       startDate: null,
-      endDate: null
+      endDate: null,
+      experiences: {}
     }
+  }
+
+  handleSubmit(values) {
+    const { experiences, startDate, endDate } = this.state
+
+    const requestExperiences = Object.entries(experiences).reduce((prev, pair) => {
+      const [key, value] = pair
+
+      if (value) {
+        prev.push({experienceId: key, minimumYears: true})
+      }
+
+      return prev
+    }, [])
+
+    this.props.onSubmit({
+      ...values,
+      requestExperiences,
+      startDate: startDate.format(),
+      endDate: endDate.format()
+    })
   }
 
   handleStartDateChange(newDate) {
@@ -44,6 +70,18 @@ class RequestForm extends Component {
     this.setState({endDate: newDate})
   }
 
+  handleExperiencesChange(event) {
+    const { value, checked } = event.target
+
+    this.setState((prevState, props) => {
+      const experiences = {
+        ...prevState.experiences,
+        [value]: checked
+      }
+
+      return { experiences }
+    })
+  }
 
   render() {
     const experiences = this.props.experiences || []
@@ -51,12 +89,19 @@ class RequestForm extends Component {
     const experienceFields = experiences.map((experience, index) => {
       return (
         <li key={experience.id}>
-          <Field
-            name={`experiences[${experience.id}]`}
-            value={experience.id.toString()}
-            component={renderExperience}
-            type="checkbox"
-            label={experience.description} />
+          <div className="form-check">
+            <input 
+              className="form-check-input"
+              name={`experiences[${experience.id}]`}
+              value={experience.id.toString()} 
+              type="checkbox" 
+              onChange={this.handleExperiencesChange} />
+            <label
+              className="form-check-label"
+              htmlFor={`experiences[${experience.id}]`}>
+              {experience.description}
+            </label>
+          </div>
         </li>
       )
     })
@@ -65,14 +110,7 @@ class RequestForm extends Component {
       <form onSubmit={this.handleSubmit} >
         <div className="row">
           <div className="col-md-12">
-            <Field 
-              name="type"
-              component={renderSelect}
-              className="form-control" 
-              label="I am looking for a"
-              validate={validateRequired} >
-              <option value="respiratory-therapist">Registered Respiratory Therapist</option>
-            </Field>
+            <h3>I am looking for a respiratory therapist.</h3>
           </div>
         </div>
 
@@ -128,6 +166,7 @@ class RequestForm extends Component {
             <Field
               name="contactEmail"
               component={renderField}
+              validate={validateEmail}
               label="Email" />
           </div>
 
@@ -135,6 +174,8 @@ class RequestForm extends Component {
             <Field
               name="contactPhone"
               component={renderField}
+              validate={validatePhone}
+              normalize={normalizePhone}
               label="Phone" />
           </div>
         </div>
@@ -142,7 +183,7 @@ class RequestForm extends Component {
         <div className="row">
           <div className="col-md-12">
             <Field
-              name="contactPhone"
+              name="notes"
               component={renderTextarea}
               label="Notes" />
           </div>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import RequestForm from '../../components/RequestForm'
 import { fetchExperiences } from '../../../store/experiences'
 import { getExperiences } from '../../../store/experiences/reducer'
+import { createRequest } from '../../store/requests'
 
 class CreateRequestPage extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class CreateRequestPage extends Component {
     this.props.fetchExperiences()
   }
 
-  handleSubmit(vals) {
+  handleSubmit(request) {
+    this.props.createRequest(request)
   }
 
   render() {
@@ -37,7 +39,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchExperiences: fetchExperiences(dispatch)
+  fetchExperiences: fetchExperiences(dispatch),
+  createRequest: (request) => { dispatch(createRequest(request)) }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRequestPage)

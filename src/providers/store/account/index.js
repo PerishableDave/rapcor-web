@@ -4,12 +4,13 @@ import {
   CREATE_PROVIDER_FAILURE
 } from './actions'
 import { post } from '../../../lib/rapcor-api'
+import { serializePhone, deserializePhone } from '../../../lib/serializer-helpers'
 
 const serialize = (provider) => {
   return {
     administrative_area: provider.administrativeArea,
     contact_email: provider.contactEmail,
-    contact_number: provider.contactNumber,
+    contact_number: serializePhone(provider.contactNumber),
     locality: provider.locality,
     name: provider.name,
     password: provider.password,
@@ -25,7 +26,7 @@ const deserialize = (json) => {
   return {
     administrativeArea: json.administrative_area,
     contactEmail: json.contact_email,
-    contactNumber: json.contact_number,
+    contactNumber: deserializePhone(json.contact_number),
     locality: json.locality,
     name: json.name,
     postalCode: json.postalCode,

@@ -114,6 +114,10 @@ export const validateRequired = value => {
 }
 
 export const validatePhone = value => {
+  if (!value) {
+    return value
+  }
+
   const numbers = value.replace(/[^\d]/g, '')
   return numbers.length === 10 ? undefined : 'Invalid phone number'
 }
