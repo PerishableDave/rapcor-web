@@ -21,6 +21,8 @@ class ClinicianForm extends Component {
   }
 
   render() {
+    const { pristine, submitting, invalid } = this.props
+
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="row">
@@ -146,7 +148,12 @@ class ClinicianForm extends Component {
 
         <div className="row">
           <div className="col-md-12">
-            <button type="submit" className="btn btn-primary float-right">{ this.props.submitText }</button>
+            <button 
+              type="submit"
+              className="btn btn-primary float-right" 
+              disabled={ pristine || submitting || invalid} >
+              { this.props.submitText }
+            </button>
           </div>
         </div>
       </form>

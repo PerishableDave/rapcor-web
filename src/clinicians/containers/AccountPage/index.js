@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import AccountNav from '../AccountNav'
-import ClinicianForm from '../ClinicianForm'
+import AccountNav from '../../components/AccountNav'
+import ClinicianForm from '../../components/ClinicianForm'
 import Loader from '../../../components/shared/Loader'
 import { fetchCurrentClinician, editClinician } from '../../store/account'
 import { getCurrentClinician } from '../../store/account/reducer'
