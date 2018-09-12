@@ -63,5 +63,9 @@ export default combineReducers({
 })
 
 export const getDocumentBySlug = (state, slug) => {
-  return state.documentsBySlug.get(slug)
+  return state.clinicians.documents.documentsBySlug.get(slug)
+}
+
+export const getDocumentsIsLoading = (state) => {
+  return state.clinicians.documents.isLoading
 }

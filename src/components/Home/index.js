@@ -6,6 +6,7 @@ export default class Home extends Component {
       <div className="container">
         <div className="row">
           <div className="col">
+            <h3>Rapcor</h3>
           </div>
         </div>
       </div>

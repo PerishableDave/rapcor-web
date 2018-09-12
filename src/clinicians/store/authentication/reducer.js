@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
   CREATE_CLINICIAN_TOKEN_REQUEST,
   CREATE_CLINICIAN_TOKEN_SUCCESS,
-  CREATE_CLINICIAN_TOKEN_FAILURE
+  CREATE_CLINICIAN_TOKEN_FAILURE,
+  CLEAR_CLINICIAN_TOKEN_ERROR
 } from './actions'
 
 const token = (state = null, {type, payload}) => {
@@ -18,6 +19,7 @@ const error = (state = null, {type, payload, error}) => {
   switch (type) {
     case CREATE_CLINICIAN_TOKEN_REQUEST:
     case CREATE_CLINICIAN_TOKEN_SUCCESS:
+    case CLEAR_CLINICIAN_TOKEN_ERROR:
       return null
     case CREATE_CLINICIAN_TOKEN_FAILURE:
       return error
@@ -46,4 +48,8 @@ export default combineReducers({
 
 export const getClinicianToken = state => {
   return state.clinicians.authentication.token
+}
+
+export const getClinicianAuthError = state => {
+  return state.clinicians.authentication.error
 }

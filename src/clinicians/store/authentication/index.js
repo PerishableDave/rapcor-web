@@ -1,10 +1,21 @@
 import {
   CREATE_CLINICIAN_TOKEN_REQUEST,
   CREATE_CLINICIAN_TOKEN_SUCCESS,
-  CREATE_CLINICIAN_TOKEN_FAILURE
+  CREATE_CLINICIAN_TOKEN_FAILURE,
+  CLEAR_CLINICIAN_TOKEN_ERROR
 } from './actions'
-import { post } from '../../../lib/rapcor-api'
+import { 
+  post,
+  ApiUnauthorizedError
+} from '../../../lib/rapcor-api'
 import history from '../../../store/history'
+
+export class ClinicianInvalidLoginError extends Error {
+  constructor () {
+    super("Invalid email or password.")
+    this.name = "ClinicianInvalidLoginError"
+  }
+}
 
 export const login = (dispatch) => {
   return async (email, password) => {
@@ -27,13 +38,26 @@ export const login = (dispatch) => {
         }
       })
 
-      history.push('/clinicians/account')
+      history.push('/clinicians/requests')
     } catch (error) {
-      dispatch({
-        type: CREATE_CLINICIAN_TOKEN_FAILURE,
-        error: error
-      })
+      if (error.name === "ApiUnauthorizedError") {
+        dispatch({
+          type: CREATE_CLINICIAN_TOKEN_FAILURE,
+          error: new ClinicianInvalidLoginError()
+        })
+      } else {
+        dispatch({
+          type: CREATE_CLINICIAN_TOKEN_FAILURE,
+          error: error
+        })
+      }
     }
+  }
+}
+
+export const clearClinicianLoginError = (dispatch) => {
+  return async () => {
+    dispatch({ type: CLEAR_CLINICIAN_TOKEN_ERROR })
   }
 }
 

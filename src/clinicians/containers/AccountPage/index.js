@@ -5,7 +5,7 @@ import AccountNav from '../../components/AccountNav'
 import ClinicianForm from '../../components/ClinicianForm'
 import Loader from '../../../components/shared/Loader'
 import { fetchCurrentClinician, editClinician } from '../../store/account'
-import { getCurrentClinician } from '../../store/account/reducer'
+import { getCurrentClinician, getClinicianIsLoading } from '../../store/account/reducer'
 
 class AccountPage extends Component {
 
@@ -24,15 +24,7 @@ class AccountPage extends Component {
   }
 
   render() {
-    let form = this.props.clinician ? (
-      <ClinicianForm 
-        submitText="Save"
-        onSubmit={this.handleSubmit}
-        initialValues={this.props.clinician} />
-    ) : (
-      <Loader />
-    )
-
+		const { clinician, loading } = this.props
     return (
       <div className="container">
         <div className="row justify-content-center">
@@ -40,9 +32,15 @@ class AccountPage extends Component {
             <AccountNav />
           </div>
         </div>
+
         <div className="row justify-content-center">
           <div className="col-md-8">
-            { form }
+            <Loader loading={loading}>
+              <ClinicianForm
+                submitText="save"
+                onSubmit={this.handleSubmit}
+                initialValues={clinician} />
+            </Loader>
           </div>
         </div>
       </div>
@@ -51,7 +49,8 @@ class AccountPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  clinician: getCurrentClinician(state)
+  clinician: getCurrentClinician(state),
+	loading: getClinicianIsLoading(state)
 })
 
 export default connect(mapStateToProps)(AccountPage)

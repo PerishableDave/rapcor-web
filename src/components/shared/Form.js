@@ -50,7 +50,7 @@ export const renderField = field => {
 
   const className = "form-control" + (error && (touched || submitFailed) ? " is-invalid" : "")
   const type = field.type || "text"
-  const requiredMark = required ? (<span class="text-danger">*</span>) : undefined
+  const requiredMark = required ? (<span className="text-danger">*</span>) : undefined
 
   const label = field.label ? (<label htmlFor={name} className="h6 small d-block text-uppercase">{ field.label }{ requiredMark }</label>) : ""
 
@@ -123,6 +123,9 @@ export const validatePhone = value => {
 }
 
 export const validatePassword = value => {
+	if (!value) {
+		return value
+	}
   return value.length < 9 ? 'Password must be 9 characters or longer' : undefined
 }
 

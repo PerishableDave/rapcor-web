@@ -2,6 +2,9 @@ import {
   FETCH_CLINICIAN_REQUEST_BID_SLUG_REQUEST,
   FETCH_CLINICIAN_REQUEST_BID_SLUG_SUCCESS,
   FETCH_CLINICIAN_REQUEST_BID_SLUG_FAILURE,
+  FETCH_CLINICIAN_REQUEST_BIDS_REQUEST,
+  FETCH_CLINICIAN_REQUEST_BIDS_SUCCESS,
+  FETCH_CLINICIAN_REQUEST_BIDS_FAILURE,
   ACCEPT_CLINICIAN_REQUEST_BID_SLUG_REQUEST,
   ACCEPT_CLINICIAN_REQUEST_BID_SLUG_SUCCESS,
   ACCEPT_CLINICIAN_REQUEST_BID_SLUG_FAILURE
@@ -10,8 +13,7 @@ import { get, post } from '../../../lib/rapcor-api'
 import { serializePhone, deserializePhone } from '../../../lib/serializer-helpers'
 import { getClinicianToken } from '../authentication/reducer'
 
-const deserialize = (json) => {
-  const requestBid = json.request_bid
+const deserialize = (requestBid) => {
   const request = requestBid.request
   const provider = request.provider
 
@@ -43,7 +45,7 @@ export const fetchClinicianRequestBidBySlug = (slug) => {
 
     try {
       const json = await get(`/v1/clinicians/request-bids/${slug}`)
-      const payload = deserialize(json)
+      const payload = deserialize(json.request_bid)
 
       dispatch({
         type: FETCH_CLINICIAN_REQUEST_BID_SLUG_SUCCESS,
@@ -54,6 +56,33 @@ export const fetchClinicianRequestBidBySlug = (slug) => {
     } catch (error) {
       dispatch({
         type: FETCH_CLINICIAN_REQUEST_BID_SLUG_FAILURE,
+        error: error
+      })
+    }
+  }
+}
+
+export const fetchClinicianRequestBids = () => {
+  return async (dispatch, getState) => {
+    const token = getClinicianToken(getState())
+
+    dispatch({ type: FETCH_CLINICIAN_REQUEST_BIDS_REQUEST  })
+
+    try {
+      const json = await get('/v1/clinicians/current/request-bids', token)
+
+      const requestBids = json.request_bids.map(json => { return deserialize(json) })
+
+      dispatch({
+        type: FETCH_CLINICIAN_REQUEST_BIDS_SUCCESS,
+        payload: {
+          requestBids: requestBids
+        }
+      })
+
+    } catch (error) {
+      dispatch({
+        type: FETCH_CLINICIAN_REQUEST_BIDS_FAILURE,
         error: error
       })
     }

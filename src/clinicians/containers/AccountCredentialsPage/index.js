@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
 import RespiratoryCredentialForm from '../../components/RespiratoryCredentialForm'
+import Loader from '../../../components/shared/Loader'
 import { fetchDocuments, createOrUpdateDocuments } from '../../store/documents'
-import { getDocumentBySlug } from '../../store/documents/reducer'
+import { getDocumentBySlug, getDocumentsIsLoading } from '../../store/documents/reducer'
 
 class AccountCredentialsPage extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class AccountCredentialsPage extends Component {
   }
 
   render() {
+    const { loading, documents } = this.props
     return (
       <div className="container">
         <div className="row justify-content-center">
@@ -31,9 +33,13 @@ class AccountCredentialsPage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <RespiratoryCredentialForm 
-              onSubmit={this.handleSubmit}
-              initialValues={this.props.documents} documents={this.props.documents} />
+
+            <Loader loading={loading}>
+              <RespiratoryCredentialForm 
+                onSubmit={this.handleSubmit}
+                initialValues={this.props.documents} documents={this.props.documents} />
+            </Loader>
+
           </div>
         </div>
       </div>
@@ -63,7 +69,8 @@ const buildClinicianDocuments = (docs) => {
 }
 
 const mapStateToProps = (state) => ({
-  documents: buildClinicianDocuments(state.clinicians.documents)
+  documents: buildClinicianDocuments(state),
+  loading: getDocumentsIsLoading(state)
 })
 
 export default connect(mapStateToProps)(AccountCredentialsPage)

@@ -61,6 +61,9 @@ export default combineReducers({
 })
 
 export const getClinicianExperience = (experienceId, state) => {
-  return state.clinicianExperiencesByExperienceId.get(experienceId)
+  return state.clinicians.clinicianExperiences.clinicianExperiencesByExperienceId.get(experienceId)
 }
 
+export const getClinicianExperienceIsloading = (state) => {
+  return state.clinicians.clinicianExperiences.isLoading
+}

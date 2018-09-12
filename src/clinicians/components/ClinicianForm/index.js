@@ -21,7 +21,8 @@ class ClinicianForm extends Component {
   }
 
   render() {
-    const { pristine, submitting, invalid } = this.props
+    const { pristine, submitting, invalid, requirePassword } = this.props
+    const passwordValidation = requirePassword ? [validateRequired, validatePassword] : [validatePassword]
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -67,8 +68,8 @@ class ClinicianForm extends Component {
               name="password"
               component={ renderField }
               type="password"
-              required={true}
-              validate={ [validateRequired, validatePassword] }
+              required={requirePassword}
+              validate={passwordValidation}
               className="form-control"
               label="Password" />
           </div>

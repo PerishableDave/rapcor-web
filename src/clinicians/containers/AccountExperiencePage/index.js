@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 
 import AccountNav from '../../components/AccountNav'
 import ExperienceList  from '../../components/ExperienceList'
+import Loader from '../../../components/shared/Loader'
 import { getClinicianToken } from '../../store/authentication'
 import { fetchExperiences } from '../../../store/experiences'
 import { getExperiences } from '../../../store/experiences/reducer'
 import { fetchClinicianExperiences, updateClinicianExperiences } from '../../store/clinicianExperiences'
-import { getClinicianExperience } from '../../store/clinicianExperiences/reducer'
+import { getClinicianExperience, getClinicianExperienceIsloading } from '../../store/clinicianExperiences/reducer'
 
 class AccountExperiencePage extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class AccountExperiencePage extends Component {
   }
 
   render() {
+    const loading = this.props.loading
     const listValues = {
       experiences: this.props.experiences
     }
@@ -40,9 +42,11 @@ class AccountExperiencePage extends Component {
         </div>
         <div className="row justify-content-center">
           <div className="col-md-8">
-            <ExperienceList 
-              initialValues={listValues}
-              onSubmit={this.handleSubmit} />
+            <Loader loading={loading}>
+              <ExperienceList 
+                initialValues={listValues}
+                onSubmit={this.handleSubmit} />
+            </Loader>
           </div>
         </div>
       </div>
@@ -54,7 +58,7 @@ const createExperienceItems = (state) => {
   const experiences = getExperiences(state)
 
   return experiences.map(experience => {
-    const clinicianExperience = getClinicianExperience(experience.id, state.clinicians.clinicianExperiences)
+    const clinicianExperience = getClinicianExperience(experience.id, state)
     return {
       experienceId: experience.id,
       description: experience.description,
@@ -65,7 +69,8 @@ const createExperienceItems = (state) => {
 
 const mapStateToProps = (state) => ({
   token: getClinicianToken(state),
-  experiences: createExperienceItems(state)
+  experiences: createExperienceItems(state),
+  loading: getClinicianExperienceIsloading(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

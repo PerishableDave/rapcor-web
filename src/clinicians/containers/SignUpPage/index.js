@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ClinicianAccountForm from '../../components/ClinicianForm'
+import ClinicianForm from '../../components/ClinicianForm'
 import { createClinician } from '../../store/account'
 
 class SignUpPage extends Component {
@@ -19,8 +19,9 @@ class SignUpPage extends Component {
       <div className="container">
         <div className="col-lg-8 mx-auto">
           <h3>Sign Up</h3>
-          <ClinicianAccountForm
+          <ClinicianForm
             submitText="Sign Up"
+            requirePassword={true}
             onSubmit={this.handleSubmit} />
         </div>
       </div>

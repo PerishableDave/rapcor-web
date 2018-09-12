@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import RequestDetails from '../../components/RequestDetails'
 import Loader from '../../../components/shared/Loader'
 import { fetchClinicianRequestBidBySlug, acceptClinicianRequestBidBySlug } from '../../store/requests'
-import { getRequestBidBySlug } from '../../store/requests/reducer'
+import { getRequestBidBySlug, getRequestBidsIsLoading } from '../../store/requests/reducer'
 
 class RequestBidPage extends Component {
   constructor(props) {
@@ -24,29 +24,33 @@ class RequestBidPage extends Component {
   }
 
   render() {
-    const { requestBid } = this.props
-    const details = requestBid ? (<RequestDetails requestBid={requestBid} />) : (<Loader />)
+    const { requestBid, loading } = this.props
 
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-8">
-            { details }
-          </div>
-        </div>
+		return (
+			<Loader loading={loading}>
+				<div className="container">
+					<div className="row justify-content-center">
+						<div className="col-md-8">
+							<RequestDetails
+								requestBid={requestBid} />
 
-        <div className="row">
-          <div className="col">
-            <button className="btn btn-primary" onClick={this.handleAccept} >Accept</button>
+						</div>
+					</div>
+
+          <div className="row justify-content-center">
+            <div className="col-md-8">
+              <button className="btn btn-success float-right" onClick={this.handleAccept} >Accept</button>
+            </div>
           </div>
-        </div>
-      </div>
-    )
+				</div>
+			</Loader>
+		)
   }
 }
 
 const mapStateToProps = (state, props) => ({
-    requestBid: getRequestBidBySlug(state, props.match.params.slug)
+    requestBid: getRequestBidBySlug(state, props.match.params.slug),
+		loading: getRequestBidsIsLoading(state)
 })
 
 export default connect(mapStateToProps)(RequestBidPage)

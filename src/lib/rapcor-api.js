@@ -1,10 +1,10 @@
 import { rapcorApiUrl } from '../config'
 import axios from 'axios'
 
-export class ApiError extends Error {
-  constructor(errors = {}) {
-    super("An error occured")
-    this.errors = errors
+export class ApiUnauthorizedError extends Error {
+  constructor() {
+    super("Unauthorized request")
+    this.name = "ApiUnauthorizedError"
   }
 }
 
@@ -23,6 +23,12 @@ const request = (path, method, data, token) => {
     data
   }).then(response => {
     return response.data
+  }).catch((err) => {
+    if (err.response.status === 401) {
+      throw new ApiUnauthorizedError()
+    }
+
+    throw err
   })
 }
 
