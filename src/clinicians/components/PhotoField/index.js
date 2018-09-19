@@ -51,7 +51,7 @@ export default class PhotoField extends Component {
         <Dropzone
           className="file-dropzone btn btn-primary"
           onDrop={this.handleDrop}>
-          <i class="fas fa-camera fa-lg align-top"></i> {this.props.label}
+          <i className="fas fa-camera fa-lg align-top"></i> {this.props.label}
         </Dropzone>
       </div>
     )

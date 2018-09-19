@@ -27,7 +27,7 @@ export class Input extends Component {
 
   render() {
     const { label, type, placeholder, name, onChange, value, required } = this.props
-    const requiredMark = required ? (<span class="text-danger">*</span>) : undefined
+    const requiredMark = required ? (<span className="text-danger">*</span>) : undefined
 
     return (
       <div className="form-group">
@@ -71,7 +71,7 @@ export const renderTextarea = field => {
 
   const className = "form-control" + (error && (touched || submitFailed) ? " is-invalid" : "")
   const type = field.type || "text"
-  const requiredMark = required ? (<span class="text-danger">*</span>) : undefined
+  const requiredMark = required ? (<span className="text-danger">*</span>) : undefined
 
   const label = field.label ? (<label htmlFor={name} className="h6 small d-block text-uppercase">{ field.label }{ requiredMark }</label>) : ""
 

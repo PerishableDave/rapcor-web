@@ -30,7 +30,7 @@ export default class RequestDetails extends Component {
 
         <div className="row">
           <div className="col">
-            <h6><i class="fas fa-sticky-note icon"></i> Notes</h6>
+            <h6><i className="fas fa-sticky-note icon"></i> Notes</h6>
             <p>
               { notes }
             </p>
@@ -39,7 +39,7 @@ export default class RequestDetails extends Component {
 
         <div className="row">
           <div className="col">
-            <h6><i class="fas fa-map-marker-alt icon"></i> Address</h6>
+            <h6><i className="fas fa-map-marker-alt icon"></i> Address</h6>
             <p>
               { address1 }<br />
               { address2 }

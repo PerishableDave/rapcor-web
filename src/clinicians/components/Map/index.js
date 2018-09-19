@@ -8,14 +8,14 @@ export default class Map extends Component {
     const { destination } = this.props
 
     if (!destination) {
-      return (<div class="map"></div>)
+      return (<div className="map"></div>)
     }
 
     const mapUrl = `https://www.google.com/maps/embed/v1/place?key=${googleMapsKey}
     &q=${encodeURIComponent(destination)}`
 
     return (
-      <div class="map">
+      <div className="map">
         <iframe src={mapUrl} />
       </div>
     )
