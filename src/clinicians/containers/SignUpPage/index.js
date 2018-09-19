@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+
 import ClinicianForm from '../../components/ClinicianForm'
+import Loader from '../../../components/shared/Loader'
 import { createClinician } from '../../store/account'
+import { getClinicianIsLoading } from '../../store/account/reducer'
 
 class SignUpPage extends Component {
   constructor(props) {
@@ -15,21 +18,26 @@ class SignUpPage extends Component {
   }
 
   render() {
+    const { isLoading } = this.props
     return (
       <div className="container">
         <div className="col-lg-8 mx-auto">
-          <h3>Sign Up</h3>
-          <ClinicianForm
-            submitText="Sign Up"
-            requirePassword={true}
-            onSubmit={this.handleSubmit} />
+          <Loader loading={isLoading} >
+            <h3>Sign Up</h3>
+            <ClinicianForm
+              submitText="Sign Up"
+              requirePassword={true}
+              onSubmit={this.handleSubmit} />
+          </Loader>
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  isLoading: getClinicianIsLoading(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   createClinician: createClinician(dispatch)

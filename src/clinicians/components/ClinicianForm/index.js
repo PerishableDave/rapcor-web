@@ -63,7 +63,7 @@ class ClinicianForm extends Component {
         </div>
 
         <div className="row">
-          <div className="col">
+          <div className="col-md-6">
             <Field 
               name="password"
               component={ renderField }
@@ -72,6 +72,17 @@ class ClinicianForm extends Component {
               validate={passwordValidation}
               className="form-control"
               label="Password" />
+          </div>
+
+          <div className="col-md-6">
+            <Field 
+              name="passwordConfirmation"
+              component={ renderField }
+              type="password"
+              required={true}
+              validate={ validateRequired }
+              className="form-control"
+              label="Confirm Password" />
           </div>
         </div>
 
@@ -162,6 +173,17 @@ class ClinicianForm extends Component {
   }
 }
 
+const validateForm = values => {
+  const errors = {}
+
+  if (values.password !== values.passwordConfirmation) {
+    errors.passwordConfirmation = "Passwords do not match"
+  }
+
+  return errors
+}
+
 export default reduxForm({
   form: "ClinicianForm",
+  validate: validateForm
 })(ClinicianForm)

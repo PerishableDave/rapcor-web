@@ -60,7 +60,10 @@ class TopNav extends PureComponent {
         <div className="u-header__section">
           <div className="container">
             <nav id="topNav" className="navbar navbar-expand-lg navbar-light">
-              <Link className="navbar-brand u-header__navbar-brand u-header__navbar-brand-top-space" to='/'>Rapcor</Link>
+              <Link className="navbar-brand u-header__navbar-brand u-header__navbar-brand-top-space" to='/'>
+                <img src="/images/logo.png" width="50" height="50" />
+                &nbsp;Rapcor
+              </Link>
 
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleMenu" aria-controls="navbarToggleMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>

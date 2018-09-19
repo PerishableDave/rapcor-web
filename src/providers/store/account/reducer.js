@@ -41,3 +41,7 @@ export default combineReducers({
   isLoading,
   error
 })
+
+export const getProviderAccountIsLoading = (state) => {
+  return state.providers.account.isLoading
+}

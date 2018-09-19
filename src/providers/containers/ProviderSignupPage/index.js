@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ProviderForm from '../../components/ProviderForm'
+import Loader from '../../../components/shared/Loader'
 import { createProvider } from '../../store/account'
+import { getProviderAccountIsLoading } from '../../store/account/reducer'
 
 class ProviderSignupPage extends Component {
   constructor(props) {
@@ -16,13 +18,18 @@ class ProviderSignupPage extends Component {
   }
 
   render() {
+    const { isLoading } = this.props
+
     return (
       <div className="container">
         <div className="col-lg-8 mx-auto">
-          <h3>Sign Up</h3>
-          <ProviderForm 
-            submitText="Sign Up"
-            onSubmit={this.handleSubmit} />
+          <Loader loading={isLoading}>
+            <h3>Sign Up</h3>
+
+            <ProviderForm 
+              submitText="Sign Up"
+              onSubmit={this.handleSubmit} />
+          </Loader>
         </div>
       </div>
     )
@@ -30,6 +37,7 @@ class ProviderSignupPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  isLoading: getProviderAccountIsLoading(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
