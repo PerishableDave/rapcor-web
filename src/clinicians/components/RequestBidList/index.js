@@ -13,16 +13,14 @@ class RequestBidItem extends Component {
 			<li>
 				<Link className="request-bid-item" to={`/r/${requestBid.slug}`}>
 					<div className="row">
-						<div className="col-md-1">
-							<span className="text-success">{ requestBid.status }</span>
+            <div className="col-md-4">
+							<span className="">{ startDate }</span>
 						</div>
-						<div className="col-md-4 align-middle">
+
+            <div className="col-md-8 align-middle">
 							{ requestBid.provider.name }
 						</div>
-						<div className="col-md-4">
-							<span className="align-middle">{ startDate }</span>
-						</div>
-					</div>
+          </div>
 				</Link>
       </li>
     )

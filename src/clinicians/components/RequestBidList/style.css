@@ -7,6 +7,7 @@
   padding: 0.8rem !important;
   margin: 0.5rem 0;
 	transition: 0.3s ease-in-out;
+  color: #1e2022;
 }
 
 .request-bid-item:hover {
@@ -17,3 +18,4 @@
   list-style: none;
   padding: 0;
 }
+
