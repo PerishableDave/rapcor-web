@@ -14,18 +14,17 @@ import { serializePhone, deserializePhone } from '../../../lib/serializer-helper
 import { getClinicianToken } from '../authentication/reducer'
 
 const deserialize = (requestBid) => {
-  const request = requestBid.request
-  const provider = request.provider
+  const provider = requestBid.provider
 
   return {
     slug: requestBid.slug,
     id: requestBid.id,
-    status: request.status,
-    startDate: request.start_date,
-    endDate: request.end_date,
-    notes: request.notes,
-    contactPhone: request.contact_phone,
-    contactEmail: request.contact_email,
+    status: requestBid.status,
+    startDate: requestBid.start_date,
+    endDate: requestBid.end_date,
+    notes: requestBid.notes,
+    contactPhone: requestBid.contact_phone,
+    contactEmail: requestBid.contact_email,
     provider: {
       name: provider.name,
       thoroughfare: provider.thoroughfare,
@@ -44,7 +43,7 @@ export const fetchClinicianRequestBidBySlug = (slug) => {
     dispatch({ type: FETCH_CLINICIAN_REQUEST_BID_SLUG_REQUEST })
 
     try {
-      const json = await get(`/v1/clinicians/request-bids/${slug}`)
+      const json = await get(`/v1/clinicians/request-bids/slug/${slug}`)
       const payload = deserialize(json.request_bid)
 
       dispatch({
@@ -94,15 +93,19 @@ export const acceptClinicianRequestBidBySlug = (slug) => {
     dispatch({ type: ACCEPT_CLINICIAN_REQUEST_BID_SLUG_REQUEST })
 
     try {
-      const json = await post(`/v1/clinicians/request-bids/${slug}/accept`)
+      const json = await post(`/v1/clinicians/request-bids/slug/${slug}/accept`)
+      const payload = deserialize(json.request_bid)
 
       dispatch({
-        type: ACCEPT_CLINICIAN_REQUEST_BID_SLUG_SUCCESS
+        type: ACCEPT_CLINICIAN_REQUEST_BID_SLUG_SUCCESS,
+        payload: {
+          requestBid: payload
+        }
       })
 
     } catch (error) {
       dispatch({
-        type: FETCH_CLINICIAN_REQUEST_BID_SLUG_FAILURE,
+        type: ACCEPT_CLINICIAN_REQUEST_BID_SLUG_FAILURE,
         error: error
       })
     }

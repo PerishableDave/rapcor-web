@@ -16,57 +16,57 @@ const REQUEST_BID_STATUS_OPEN = "open"
 const REQUEST_BID_STATUS_FULFILLED = "fulfilled"
 const REQUEST_BID_STATUS_CANCELLED = "cancelled"
 
-const requestBidsBySlug = (state = new Map(), { type, payload }) => {
+const requestBidsBySlug = (state = {}, { type, payload }) => {
   switch (type) {
     case FETCH_CLINICIAN_REQUEST_BID_SLUG_SUCCESS:
+    case ACCEPT_CLINICIAN_REQUEST_BID_SLUG_SUCCESS:
+    case ACCEPT_CLINICIAN_REQUEST_BID_SLUG_FAILURE:
+
       const requestBid = payload.requestBid
-      return state.set(requestBid.slug, requestBid)
+      return {
+        ...state,
+        [requestBid.slug]: requestBid
+      }
     case FETCH_CLINICIAN_REQUEST_BIDS_SUCCESS:
       const requestBids = payload.requestBids
       return requestBids.reduce((map, requestBid) => {
-        return map.set(requestBid.slug, requestBid)
+        return {
+          ...map,
+          [requestBid.slug]: requestBid
+        }
       }, state)
     default:
       return state
   }
 }
 
-const requestBidsById = (state = new Map(), { type, payload }) => {
+const requestBidsById = (state = {}, { type, payload }) => {
   switch (type) {
     case FETCH_CLINICIAN_REQUEST_BID_SLUG_SUCCESS:
+    case ACCEPT_CLINICIAN_REQUEST_BID_SLUG_SUCCESS:
+    case ACCEPT_CLINICIAN_REQUEST_BID_SLUG_FAILURE:
       const requestBid = payload.requestBid
-      return state.set(requestBid.id, requestBid)
+      return {
+        ...state,
+        [requestBid.id]: requestBid
+      }
     case FETCH_CLINICIAN_REQUEST_BIDS_SUCCESS:
       const requestBids = payload.requestBids
-      return requestBids.reduce((map, requestBid) => {
-        return map.set(requestBid.id, requestBid)
+      return requestBids.reduce((obj, requestBid) => {
+        return {
+          ...obj,
+          [requestBid.id]: requestBid
+        }
       }, state)
     default:
       return state
   }
 }
 
-const openRequestBidIds = (state = [], {type, payload }) => {
+const requestBids = (state = [], {type, payload }) => {
   switch (type) {
     case FETCH_CLINICIAN_REQUEST_BIDS_SUCCESS:
-      return payload.requestBids.filter((requestBid) => {
-        return requestBid.status === REQUEST_BID_STATUS_OPEN
-      }).sort((a, b) => {
-        return moment(a.startDate).unix() - moment(b.startDate).unix()
-      }).map((requestBid) => {
-        return requestBid.id
-      })
-    default:
-      return state
-  }
-}
-
-const acceptedRequestBidIds = (state = [], {type, payload }) => {
-  switch (type) {
-    case FETCH_CLINICIAN_REQUEST_BIDS_SUCCESS:
-      return payload.requestBids.filter((requestBid) => {
-        return requestBid.status === REQUEST_BID_STATUS_FULFILLED
-      }).sort((a, b) => {
+      return payload.requestBids.sort((a, b) => {
         return moment(a.startDate).unix() - moment(b.startDate).unix()
       }).map((requestBid) => {
         return requestBid.id
@@ -115,26 +115,33 @@ const error = (state = null, { type, error }) => {
 export default combineReducers({
   requestBidsBySlug,
   requestBidsById,
-  openRequestBidIds,
-  acceptedRequestBidIds,
+  requestBids,
   isLoading,
   error
 })
 
 export const getRequestBidBySlug = (state, slug) => {
-  return state.clinicians.requests.requestBidsBySlug.get(slug)
+  return state.clinicians.requests.requestBidsBySlug[slug]
 }
 
 export const getOpenRequestBids = (state) => {
-  const { openRequestBidIds, requestBidsById } = state.clinicians.requests
+  const { requestBids, requestBidsById } = state.clinicians.requests
 
-  return openRequestBidIds.map(id => { return requestBidsById.get(id) })
+  return requestBids.map(id => {
+    return requestBidsById[id]
+  }).filter((requestBid) => {
+    return requestBid.status === "open"
+  })
 }
 
 export const getAcceptedRequestBids = (state) => {
-  const { acceptedRequestBidIds, requestBidsById } = state.clinicians.requests
+  const { requestBids, requestBidsById } = state.clinicians.requests
 
-  return acceptedRequestBidIds.map(id => { return requestBidsById.get(id) })
+  return requestBids.map(id => {
+    return requestBidsById[id]
+  }).filter((requestBid) => {
+    return requestBid.status === "fulfilled"
+  })
 }
 
 export const getRequestBidsIsLoading = (state) => {

@@ -20,11 +20,20 @@ class RequestBidPage extends Component {
   }
 
   handleAccept() {
-    console.log("handle accept")
+    const slug = this.props.requestBid.slug
+    this.props.dispatch(acceptClinicianRequestBidBySlug(slug))
   }
 
   render() {
     const { requestBid, loading } = this.props
+
+    const acceptButton = requestBid && requestBid.status === "open" ? (
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <button className="btn btn-success float-right" onClick={this.handleAccept} >Accept</button>
+        </div>
+      </div>
+    ) : null
 
 		return (
 			<Loader loading={loading}>
@@ -37,11 +46,7 @@ class RequestBidPage extends Component {
 						</div>
 					</div>
 
-          <div className="row justify-content-center">
-            <div className="col-md-8">
-              <button className="btn btn-success float-right" onClick={this.handleAccept} >Accept</button>
-            </div>
-          </div>
+          { acceptButton }
 				</div>
 			</Loader>
 		)

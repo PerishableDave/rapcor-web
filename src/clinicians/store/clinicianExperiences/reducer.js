@@ -8,15 +8,17 @@ import {
   UPDATE_CLINICIAN_EXPERIENCES_FAILURE
 } from './actions'
 
-const setCliniciansByExperienceId = (map, clinician) => {
-  return map.set(clinician.experienceId, clinician)
-}
-
-const clinicianExperiencesByExperienceId = (state = new Map(), action) => {
+const clinicianExperiencesByExperienceId = (state = [], action) => {
   switch (action.type) {
     case FETCH_CLINICIAN_EXPERIENCES_SUCCESS:
     case UPDATE_CLINICIAN_EXPERIENCES_SUCCESS:
-      return action.payload.reduce(setCliniciansByExperienceId, state)
+      const clinicianExperiences = action.payload
+      return clinicianExperiences.reduce((state, clinicianExperience) => {
+        return {
+          ...state,
+          [clinicianExperience.id]: clinicianExperience
+        }
+      }, state)
     default:
       return state
   }
@@ -61,7 +63,7 @@ export default combineReducers({
 })
 
 export const getClinicianExperience = (experienceId, state) => {
-  return state.clinicians.clinicianExperiences.clinicianExperiencesByExperienceId.get(experienceId)
+  return state.clinicians.clinicianExperiences.clinicianExperiencesByExperienceId[experienceId]
 }
 
 export const getClinicianExperienceIsloading = (state) => {

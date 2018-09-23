@@ -11,12 +11,16 @@ import {
   CREATE_DOCUMENTS_FAILURE
 } from './actions'
 
-const documentsBySlug = (state = new Map(), action) => {
+const documentsBySlug = (state = {}, action) => {
   switch (action.type) {
     case FETCH_DOCUMENTS_SUCCESS:
     case CREATE_DOCUMENTS_SUCCESS:
-      return action.payload.reduce((map, doc) => {
-        return map.set(doc.slug, doc)
+      const documents = action.payload
+      return documents.reduce((state, doc) => {
+        return {
+          ...state,
+          [doc.slug]: doc
+        }
       }, state)
     default:
       return state
@@ -63,7 +67,7 @@ export default combineReducers({
 })
 
 export const getDocumentBySlug = (state, slug) => {
-  return state.clinicians.documents.documentsBySlug.get(slug)
+  return state.clinicians.documents.documentsBySlug[slug]
 }
 
 export const getDocumentsIsLoading = (state) => {

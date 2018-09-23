@@ -8,14 +8,22 @@ import {
   FETCH_PROVIDER_REQUESTS_FAILURE
 } from './actions'
 
-export const requestsById = (state = new Map(), { type, payload }) => {
+export const requestsById = (state = {}, { type, payload }) => {
   switch (type) {
     case CREATE_REQUEST_SUCCESS:
       const request = payload.request
-      return state.set(request.id, request)
+      return {
+        ...state,
+        [request.id]: request
+      }
     case FETCH_PROVIDER_REQUESTS_SUCCESS:
       const requests = payload.requests
-      return requests.reduce((map, request) => { return map.set(request.id, request) }, state)
+      return requests.reduce((map, request) => {
+        return {
+          ...map,
+          [request.id]: request
+        }
+      }, state)
     default:
       return state
   }
@@ -75,5 +83,5 @@ export const getRequestsByDate = state => {
     return null
   }
 
-  return requestIdsByDate.map(requestId => requestsById.get(requestId))
+  return requestIdsByDate.map(requestId => requestsById[requestId])
 }
