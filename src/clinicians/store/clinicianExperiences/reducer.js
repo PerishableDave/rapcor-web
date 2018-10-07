@@ -16,7 +16,7 @@ const clinicianExperiencesByExperienceId = (state = {}, action) => {
       return clinicianExperiences.reduce((state, clinicianExperience) => {
         return {
           ...state,
-          [clinicianExperience.id]: clinicianExperience
+          [clinicianExperience.experienceId]: clinicianExperience
         }
       }, state)
     default:
