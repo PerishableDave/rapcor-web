@@ -8,7 +8,7 @@ import {
   UPDATE_CLINICIAN_EXPERIENCES_FAILURE
 } from './actions'
 
-const clinicianExperiencesByExperienceId = (state = [], action) => {
+const clinicianExperiencesByExperienceId = (state = {}, action) => {
   switch (action.type) {
     case FETCH_CLINICIAN_EXPERIENCES_SUCCESS:
     case UPDATE_CLINICIAN_EXPERIENCES_SUCCESS:
