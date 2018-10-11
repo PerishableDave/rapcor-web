@@ -45,7 +45,6 @@ class LoginForm extends Component {
           <div className="col-md-6">
             <button 
               type="submit"
-              disabled={ pristine || submitting || invalid }
               className="btn btn-primary float-right">Login</button>
           </div>
         </div>
