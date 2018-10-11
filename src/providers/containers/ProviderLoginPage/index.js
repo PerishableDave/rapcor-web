@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ProviderLoginForm from '../../components/ProviderLoginForm'
-import { login } from '../../store/authentication'
+import { 
+  login,
+  clearProviderLoginError
+} from '../../store/authentication'
+import { getProviderAuthError } from '../../store/authentication/reducer'
 
 class ProviderLoginPage extends Component {
   constructor(props) {
@@ -17,11 +21,24 @@ class ProviderLoginPage extends Component {
     this.props.login(contactEmail, password)
   }
 
+  componentWillUnmount() {
+    this.props.clearProviderLoginError()
+  }
+
   render() {
+    const { error } = this.props
+
+    const errorDialog = error ? (
+      <div className="alert alert-danger">
+        { error.message }
+      </div>
+    ) : undefined
+
     return (
       <div className="container">
         <div className="col-lg-8 mx-auto">
           <h3>Provider Login</h3>
+          { errorDialog }
           <ProviderLoginForm 
             onSubmit={this.handleSubmit} />
         </div>
@@ -30,10 +47,13 @@ class ProviderLoginPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {}
+const mapStateToProps = (state) => ({
+  error: getProviderAuthError(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
-  login: login(dispatch)
+  login: login(dispatch),
+  clearProviderLoginError: clearProviderLoginError(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProviderLoginPage)

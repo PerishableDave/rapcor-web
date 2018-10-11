@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
   CREATE_PROVIDER_TOKEN_REQUEST,
   CREATE_PROVIDER_TOKEN_SUCCESS,
-  CREATE_PROVIDER_TOKEN_FAILURE
+  CREATE_PROVIDER_TOKEN_FAILURE,
+  CLEAR_PROVIDER_TOKEN_ERROR
 } from './actions'
 
 const token = (state = null, {type, payload}) => {
@@ -18,6 +19,7 @@ const error = (state = null, {type, payload, error}) => {
   switch (type) {
     case CREATE_PROVIDER_TOKEN_REQUEST:
     case CREATE_PROVIDER_TOKEN_SUCCESS:
+    case CLEAR_PROVIDER_TOKEN_ERROR:
       return null
     case CREATE_PROVIDER_TOKEN_FAILURE:
       return error
@@ -46,4 +48,8 @@ export default combineReducers({
 
 export const getProviderToken = state => {
   return state.providers.authentication.token
+}
+
+export const getProviderAuthError = state => {
+  return state.providers.authentication.error
 }
