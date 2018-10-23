@@ -38,6 +38,7 @@ export const login = (dispatch) => {
         }
       })
 
+      history.push('/providers/requests')
     } catch (error) {
       if (error.name === "ApiUnauthorizedError") {
         dispatch({
